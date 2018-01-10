@@ -1,0 +1,21 @@
+1. CTRL + D 		# end-of-file --> closing the file
+2. CTRL + C 		# stop the process
+3. CTRL + R		# history of commands
+4. ls 			# show list of files in current folder
+5. ls -l		# show list of file, folders and other info
+6. ls -a		# show also hidden files
+7. mkdir Folder		# create a folder in current folder
+8. cd Desktop		# go to Desktop folder
+9. cd ..		# go folder up
+10. cd ~		# go to home folder
+11. pwd 		# show current location (print the writting directory)
+12.cp file1 file2	# copy file1 to a file2
+13. mv file1 file2	# move file1 to a file2
+14.rm file		# delete a file
+15. rmdir foldername	# delete a folder
+16. cat file		# show a selected file
+17. gedit file		# open file in gedit editor
+18. touch file		# create a file in current location
+19. sudo command_name	# open command as a root
+20. sudo su		# new shell, we work as an admin
+21

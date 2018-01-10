@@ -86,44 +86,45 @@
 
 # ignore some files while commiting
 34.touch .gitignore 		# makes a hidden file .gitignore
+35. sudo gedit .gitignore	# open .gitignore file in gedit editor
 # add info about files to be ignored inside .gitignore file  
 
 # removing files --> remember to commit afterwards
-35. git rm *.txt 		# removes all .txt files
+36. git rm *.txt 		# removes all .txt files
 
 ## WORKING WITH REMOTE REPO
 
 # create remote repo on GitHub
-36. git remote add origin URL_here
+37. git remote add origin URL_here
 
 # push changes to remote repo
 
-37. git push -u origin master
+38. git push -u origin master
 
 # or 
 
 # copy an existing repo from GitHub
-38. git clone URL_here
+39. git clone URL_here
 
 # push changes to a remote repo
-39. git push 
+40. git push 
 
 # pull changes from remote repo to a local one
-40. git pull origin master
+41. git pull origin master
 
 ## BRANCHES
 
 # creating a new branch 
-41. git branch branch_name
+42. git branch branch_name
 
 # switch to a branch
-42. git checkout branch_name
+43. git checkout branch_name
 
 # merge branch with master
-43. git merge branch_name
+44. git merge branch_name
 
 # delete branch
-44. git branch -d branch_name
+45. git branch -d branch_name
 
 
 
