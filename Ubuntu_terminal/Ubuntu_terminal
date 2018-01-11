@@ -1,21 +1,47 @@
-1. CTRL + D 		# end-of-file --> closing the file
-2. CTRL + C 		# stop the process
-3. CTRL + R		# history of commands
-4. ls 			# show list of files in current folder
-5. ls -l		# show list of file, folders and other info
-6. ls -a		# show also hidden files
-7. mkdir Folder		# create a folder in current folder
-8. cd Desktop		# go to Desktop folder
-9. cd ..		# go folder up
-10. cd ~		# go to home folder
-11. pwd 		# show current location (print the writting directory)
-12.cp file1 file2	# copy file1 to a file2
-13. mv file1 file2	# move file1 to a file2
-14.rm file		# delete a file
-15. rmdir foldername	# delete a folder
-16. cat file		# show a selected file
-17. gedit file		# open file in gedit editor
-18. touch file		# create a file in current location
-19. sudo command_name	# open command as a root
-20. sudo su		# new shell, we work as an admin
-21
+1. CTRL + D 				# end-of-file --> closing the file
+2. CTRL + C 				# stop the process
+3. CTRL + R				# history of commands
+4. ls 					# show list of files in current folder
+5. ls -l				# show list of file, folders and other info
+6. ls -a				# show also hidden files
+7. mkdir Folder				# create a folder in current folder
+8. cd Desktop				# go to Desktop folder
+9. cd ..				# go folder up
+10. cd ~				# go to home folder
+11. pwd 				# show current location (print the writting directory)
+12. cp file1 file2			# copy file1 to a file2
+13. mv file1 file2			# move file1 to a file2
+14. rm file				# delete a file
+15. rmdir foldername			# delete a folder
+16. rm -R foldername			# delete a folder and everything inside
+16. cat file				# show a selected file
+17. gedit file				# open file in gedit editor
+18. touch file				# create a file in current location
+19. sudo command_name			# open command as a root
+20. sudo su				# new shell, we work as an admin
+21. man useradd				# open manual to useradd command
+22. sudo useradd -m -g users Newuser	# create a new user "Newuser"
+23. sudo passwd Newuser			# set password for 'Newuser"
+24. sudo userdel Newuser		# delete "Newuser"
+25. sudo chmod 777 filename		# change permission to the file for users
+#  read  - 4 (4+2)   = 6 --> read & write
+   write - 2 (4+2+1) = 7 --> read, write & execute
+   exec  - 1  0          --> no permission to a file
+   000 --> myuser groupusers allusers
+   777 --> everyone can read, write & execute this file
+   600 --> only myuser can read & write
+26. groups username 			# show groups that "username" user belongs to
+27. id username				# show info about user "username"
+28. sudo groupadd groupname 		# add a new group "groupname"
+29. sudo gpasswd -a username groupname 	# add a user to group
+30. sudo gpasswd -d username groupname 	# remove user from a group
+31. sudo groupdel group name		# remove group "groupname"
+32. git help > githelp.txt		# redirect git help content into a file githelp.txt
+33. git help >> githelp.txt		# append --> same as ">" but if file exist it doesn't 
+					  overwrite it but save a content at the end of file
+34. 2>					# redirect error
+35. &>					# redirect both content and error
+36. grab a < file.txt			# looking for a "a" in file.txt
+37. cat file.txt | grep a		# do exactly the same as above, "|" means and
+38. ps aux				# show active processes
+39. jobs				# show running jobs
