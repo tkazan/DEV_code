@@ -1,0 +1,172 @@
+1. WZORZEC PROJEKTOWY 
+MVC - Model - View - Controler (Model - Widok - Kontroler)
+MTV - Model - Template - View (Model - Szablon - Widok) --> Django
+
+Model - dostarcza nam danych (np. z bazy danych)
+Widok(szablon) - graficzne przekazanie danych
+Kontroler - logika działania aplikacji
+
+2. w terminalu . = source
+
+3. w shellu przy pracy z bazą danych zaczynamy od importu:
+--> from app_name.models import *
+
+zapytania mają składnię:
+n = NazwaKlasay.objects.cozrobić() np.
+t = Toppings.objects.get(name="ham")
+
+4. Typy pól w models do bazy danych zapisujemy jako:
+nazwa_pola = models.typ_pola np.
+
+name = models.CharField(max_length=255)
+description = models.TextField()
+score = models.IntegerField()
+price = models.DecimalField(max_digits=5, decimal_places=2)
+rating = models.FloatField()
+BooleanField() --> True / False
+NullBooleanField() --> True / False / Null
+DateField() --> mapuje do Date
+DateTimeField() --> mapuje datę i godzinę
+
+UWAGA! Klucz główny (id SERIAL) dodawany jest automatycznie, chyba, że go specjanie dodamy do innego pola
+- wtedy w dodatkowych atrybutach piszemy (primary_key = True)
+
+5. dodatkowe atrybuty:
+nazwa_pola = models.typ_pola(default = 1, NULL = True, max_lenght = 64, choices = KROTKA)
+--> domyślna wartość = 1, pole może być puste, dopuszczalna ilość znaków = 64, mamy wybór z krotki zapisanej do zmiennej)
+
+PRACA W SHELLU:
+
+6. Dodawanie danych
+- dłuższa metoda:
+t = Toppings()
+t.name = "ham"
+t.price = "3.50"
+t.save()
+
+- KRÓTSZA METODA: create()
+t = Toppings.objects.create(name="ham", price="3.50")
+
+7. Wyciąganie jednego rekordu, najlepiej po indeksie: get()
+t = Toppings.objects.get(pk=1)
+
+jeżeli przy użyciu get nie dostaniemy, żadnego rekordu, albo więcej niż
+jeden, to dostaniemy wyjątek - dlatego najlepiej po kluczu głównym
+
+8. Pobranie wszystkich wierszy: all()
+t = Toppings.objects.all() 
+
+9. Jeżeli chcemy wybrać więcej rekordów możemy do tego wykorzystać: filter()
+t = Toppings.objects.filter(name="ham")
+
+jeżeli chcemy filtrować po więcej niż jednym kluczu, to możemy to zrobić na 2 sposoby:
+t = Toppings.objects.filter(name="ham", amount="normal") lub
+t = Toppings.objects.filter(name="ham").filter(amount="normal")
+
+10. Dodatkowe opcje do filter:
+__lt - less then (mniejsze niż)
+__lte - less then, equal (mniejsze równe)
+__gt - greater then (większe niż)
+__gte - greater then, equal (większe, równe)
+__contains - zawierające
+__in=["a", "b", "c"] - znajdujące sie na liście
+
+np. t = Toppings.objects.filter(price__lte=3.50)
+t = Toppings.objects.filter(name__contains="cheese")
+t = Toppings.objects.filter(name__in=["ham", "cheese", "mashrooms"])
+
+11. Modyfikacja danych:
+t = Toppings.objects.get(pk=1)
+t.price = 3.50
+t.save()
+
+12. Usuwanie danych:
+t = Toppings.objects.get(pk=2)
+t.delete()
+
+RELACJE
+
+13. w relacji WIELE DO JEDNEGO ForeignKey dajemy tam, gdzie wiele.
+Przy tworzeniu related_field = models.ForeignKey("RelatedModel")
+to klasę nadrzędną warto dać w cudzysłowiu, wtedy nie ma znaczenia kolejność w models.
+
+np. relacja jeden adres wielu mieszkańców:
+# każda klasa w models.py dziedziczy po: models.Model
+
+class People(models.Model): 
+    address = ForeignKey("Address")
+
+14. w relacji JEDEN DO JEDNEGO:
+related_field = models.OneToOneField("RealatedModel")
+
+np. relacja klient - rabat dedykowany:
+
+# related_field zawsze dajemy w modelu podrzędnym,
+czyli może istnieć klient bez rabatu, natomiast nie ma
+rabatu dedykowanego bez klienta
+
+class Discount(models.Model):
+    client = models.OneToOneField(Client, on_delete=models.CASCADE)
+
+15. w relacji WIELE DO WIELU:
+pole ManyToMany możemy umieścić w dowolnym modelu, ale TYLKO W JEDNYM
+related = models.ManyToMany(RelatedModel)
+
+np. Pizza może mieć wiele dodatków, dodatek może być na wielu pizzach
+
+class Topping(models.Model):
+    name = models.CharField(max_length=32)
+    price = models.FloatField()
+
+class Pizza(models.Model):
+    size = models.IntegerField(choices=PIZZA_SIZES)
+    toppings = models.ManyToManyField(Topping)
+
+ManyToMany jest w modelu Pizza, "domyślnie to on jest nadrzędny"
+
+t1 = Toppings.objects.create(name='anchovies', price=3.50)
+t2 = Toppings.objects.create(name='onion', price=2.00)
+p = Pizza.objects.create(size=1)
+p.toppings.add(t1)
+p.toppings.add(t2)
+
+jeżeli chcemy dodać więcej niż jeden na raz to robimy to metodą set():
+p = Pizza.objects.create(size=1)
+tops = [t1, t2]
+p.toppings.set(tops)
+
+Wybieranie:
+p = Pizza.objects.get(pk=1)
+p.toppings.all()
+
+ale
+
+t = Topping.objects.get(pk=1)
+t.pizza_set.all()
+
+16. relacja WIELE DO WIELU z dodatkową informacją (tabelą pośrednią):
+related = models.ManyToManyField(RelatedModel, through=ThroughModel)
+np.
+
+class Pizza(models.Model):
+    size = models.IntegerField(choices=PIZZA_SIZES)
+    toppings = models.ManyToManyField(Topping, through=PizzaTopps)
+
+TOP_AMOUNT = (
+    ('h', 'half'),
+    ('n', 'normal'),
+    ('d', 'double'),
+    ('t', 'triple')
+)
+class PizzaTops(models.Model):
+    pizza = models.ForeignKey(Pizza)
+    topping = models.ForeignKey(Topping)
+    amount = models.CharField(max_length=1, choices=TOP_AMOUNT, default='n')
+
+pt = PizzaTopps.objects.create(pizza=p, topping=t1, amount='n')
+UWAGA! do pola relacji dodajemy cały model, a nie tylko id !
+
+17. Zapytanie w metodzie GET:
+/?variable1=1&variable2=2 (zaczynamy od "?" i później pary klucz=wartość rozdzielone ampresandem "&")
+
+

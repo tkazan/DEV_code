@@ -1,0 +1,273 @@
+ZAAWANSOWANE DJANGO
+
+1. Struktura:
+
+a) PROJEKT
+- settings.py --> lista aplikacji, połączenie z bazą danych, ustawienie static
+- urls.py --> import klas z widoków (views) i url-e pod jakimi mają być wyświetlane
+
+b) APLIKACJE
+
+- models.py --> modele do połączenia z bazą danych
+- views.py --> klasy widoków, logika aplikacji
+- templates/*.html --> szablony hmtl (w tym base.html / index.html)
+- forms.py --> formularze
+
+static/js/*.js --> pliki javascript
+static/css/*.css --> pliki css
+
+2. VIEWS
+
+aby, wyświetlić szablon w widokach musimy użyć TemplateResponse lub funkcji render
+
+from django.template.response import TemplateResponse
+from django.shortcuts import render
+
+def ship(request):
+    ctx = {
+      "type": "YT-1300 Light Freighter",
+      "name": "Millenium Falcon",
+      "owner": "Han Solo"
+    }
+    return render(request, "ship.html", ctx)
+
+3. TEMPLATES - zmienne z kontesktu przekazane są w {{ zmienna }}
+
+<html>
+  <body>
+    <h1>Imperialna baza statków kosmicznych</h1>
+    <p><strong>Nazwa:</strong>
+       {{ name }}</p>
+    <p><strong>Typ:</strong>
+       {{ type }}</p>
+    <p><strong>Właściciel:</strong>
+       {{ owner }}</p>
+  </body>
+</html>
+
+- zmienne:
+ {{ foo.bar }}
+(Wyświetlenie atrybutu bar z obiektu foo)
+
+{{ foo2['bar'] }}
+(Wyświetlenie zawartości komórki o kluczu bar z tablicy foo2) 
+
+- komentarze:
+
+{% comment %}
+  To jest komentarz.
+  Nie będzie się pojawiał!
+{% endcomment %}
+
+- for, if, itp:
+
+{% for item in navigation %}
+    <li><a href="{{ item.href }}">{{ item.caption }}</a></li>
+{% endfor %}
+
+- dziedziczenie szablonów (tutaj po base.html)
+base.html:
+<!DOCTYPE html>
+<html>
+  <head>
+    {% block head %}
+      <link rel="stylesheet" href="style.css" />
+      <title>{% block title %}{% endblock %} | My Webpage</title>
+    {% endblock %}
+  </head>
+  <body>
+    <div id="content">{% block content %}{% endblock %}</div>
+    <div id="footer">
+      {% block footer %}
+        © Copyright 2016 by <a href="http://...">Something</a>.
+      {% endblock %}
+    </div>
+  </body>
+
+- szablon dziedziczący:
+{% extends "base.html" %}
+{% block title %}
+  Index
+{% endblock %}
+{% block head %}
+  <style type="text/css" href="style_2.css"></style>
+{% endblock %}
+{% block content %}
+  <h1>Index</h1>
+  <p class="important">Welcome to my awesome homepage.</p>
+{% endblock %}
+
+- filtry:
+
+dla zmiennej:
+{{ zmienna|filter }}
+
+dla bloku tekstu:
+{% filter upper %}
+  This text becomes uppercase
+{% endfilter %}
+
+4. FORMULARZE:
+
+- w pliku forms.py:
+from django import forms
+
+class NameForm(forms.Form):
+    login = forms.CharField(label='Twój login', max_length=100)
+
+- w views.py:
+from .forms import NameForm
+
+class MyFormView(View):
+    def get(self, request):
+        form = NameForm()
+        return render(request, 'login.html', {'form': form})
+    
+    def post(self, request):
+        form = NameForm(request.POST)
+        if form.is_valid():
+            login = form.cleaned_data['login']
+            return HttpResponseRedirect('/thanks/')
+
+- w pliku templates/login.html:
+
+<form action="{% url 'get-login' %}" method="post">
+  {% csrf_token %}
+  {{ form }}
+  <input value="OK" type="submit">
+</form>
+
+może być samo {{ form }}, ale może też być:
+form.as_table – w postaci tabelki,
+form.as_p – w postaci paragrafów,
+form.as_ul – w postaci listy
+
+5. WIDGETY
+
+W Django, widget będzie sposobem w jaki Django renderuje pola formularzy. 
+Wszystkie widgety znajdują się w pakiecie django.forms.
+Klasę zawierającą widget dodaje się do pola formularza jako parametr opcjonalny np:
+
+message = forms.CharField(widget=forms.Textarea)
+
+Widgety:
+- forms.TextInput (defaultowy dla pola CharField)
+- forms.PasswordInput
+- forms.TextArea 
+- forms.Select
+- forms.SelectMultiple
+- forms.RadioSelect
+
+6. WŁAŚCIWOŚCI PÓL FORMULARZA:
+a) required
+Jeśli użyjemy tej właściwości (tj. ustawimy wartość na True), pole będzie wymagane. Przesłanie niewypełnionego pola zwróci błąd ValidationError. 
+
+login = forms.CharField(required=False)
+
+b) label
+Opis pola. Opis ten będzie wyświetlany w formularzu. 
+
+login = forms.CharField(label="Podaj swój login")
+
+c) initial
+ Do tej właściwości przypisujemy słownik z inicjującymi formularz wartościami. 
+
+login = forms.CharField(initial="administrator")
+
+d) widget 
+Podając klasę widgetu zmieniamy standardowy widget dla tego pola formularza.
+
+content = forms.CharField(widget=forms.Textarea)
+
+e) help_text
+Dodatkowy opis pola formularza 
+
+login = forms.CharField(help_text="Dozwolone znaki: a-z, A-Z, 0-9, . (kropka)")
+
+7. ModelForm !!!
+
+w pliku forms.py:
+
+class ToppingForm(ModelForm):
+    class Meta:
+        model = Topping
+        fields = ['name', 'price']
+
+model – czyli z jakiego modelu korzystać ma klasa formularza
+fields – czyli które pola będą wyświetlone w formularzu. 
+        Jeżeli wszystkie to zamiast listy podajemy string: '__all__'.
+        Jeżeli wszystkie z wykluczeniem jakiegoś: exclude = ['available_from'] 
+
+ModelForm ma metodę save(), która pozwala zapisać model przypięty do formularza. Ta metoda tworzy lub modyfikuje obiekt modelu i zapisuje go do bazy danych. 
+
+w widoku:
+
+class MyProduct(View):
+    . . .
+    def post(self, request):
+        prod_id = request.POST.get("id")
+        p = Product.objects.get(pk=prod_id)
+        f = ProductForm(request.POST, instance=p)
+        if f.is_valid():
+            f.save()
+            return render(request, "thankyou.html")
+
+8. PROCESORY KONTEKSTU:
+
+jeżeli chcemy używać jakiś zmiennych globalnych np. bierzącą datę i nr wersji w stopce strony 
+możemy w tym celu wykorzystać procesorów kontekstu.
+
+tworzymy plik pythona np. my_context_procesor.py
+i w tym pliku tworzymy funkcję, która zwraca słownik ze zmiennymi, które chcemy wykorzystać globalnie np.
+
+from datetime import datetime
+def my_cp(request):
+    ctx = {
+        "now": datetime.now(),
+        "version": "1.0",
+    }
+    return ctx
+
+Aby procesor kontekstu był widoczny w aplikacji, musimy zarejestrować go w pliku settings.py.
+W tym celu musimy odnaleźć wpis TEMPLATES, w którym definiujemy dane szablonów. 
+Odnajdujemy klucz OPTIONS, po czym do listy o kluczu context_processors dopisujemy ścieżkę dostępu do funkcji:
+'edu.my_context_processor.my_cp'
+
+i później w szablonie:
+
+<footer>
+  <strong>
+    Dzisiaj jest {{ now }}
+    | wersja: {{ version }}
+  </strong>
+</footer>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+           

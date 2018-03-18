@@ -1,0 +1,133 @@
+PRACA Z DJANGO
+
+1. Tworzymy folder główny dla nowego projektu do pracy z django
+
+2. W tym folderze instalujemy wirtualne środowisko 
+i przypisujemy nazwę folderu dla tego środowiska: tutaj virtenvdjango:  
+--> virtualenv -p python3 virtenvdjango
+
+3. Aktywujemy wirtualne środowisko, będąc w folderze głównym dla naszego nowego projektu:
+--> source virtenvdjango/bin/activate
+(w konsoli wirtualne środowisko deaktywujemy poprzez: --> deactivate)
+
+4. Mając już aktywne wirtualne środowisko, instalujemy django 
+(tutaj w wersji 1.11.6, domyślnie, bez numeru na końcu 2.0):
+--> pip3 install django==1.11.6
+
+5. Po instalacji, możemy podejrzeć, czy zainstalowała się odpowiednia wersja:
+--> django-admin version
+
+6. Będąc w folderze głównym inicjujemy nowy projekt tutaj o nazwie coderslab 
+(kropka oznacza "w tym folderze"):
+--> django-admin startproject coderslab .
+
+7. Tworzymy nową aplikację (będąc w folderze głównym projektu)
+tutaj o nazwie edu: 
+--> python manage.py startapp rand
+UWAGA! Aplikacja nie może mieć nazwy takiej samej jak projekt!
+
+8. Uruchamiany serwer (domyślnie na porcie 8000):
+--> python manage.py runserver 
+(można też otworzyć na innym porcie i go sobie wybrać: python manage.py runserver 8888)
+
+9. Dodajemy naszą aplikację w pliku settings.py (w folderze projektu) w sekcji INSTALLED_APPS
+
+10. W konsoli, będąc w aktywnym wirtualnym środowisku instalujemy bibliotekę do łączenia się
+z bazami danych postgres psycopg2:
+--> pip3 install psycopg2
+
+11. W folderze projektu w pliku settings.py w sekcji DATABASES konfigurujemy bazę danych, z którą będziemy pracować,
+tutaj baza danych postgres projekt_1_db:
+DATABASES = {
+    'default': {
+        'NAME': 'projekt_1_db',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'USER': 'postgres',
+        'PASSWORD': 'coderslab',
+        'HOST': 'localhost'
+    }
+}
+
+12. Migracja do bazy danych (serwer musi być wyłączony CTRL+C w konsoli)
+--> python manage.py migrate
+
+13. Jeśli pracujemy z bazą danych w konkretnej aplikacji, to wcześniej trzeba zrobić:
+--> python manage.py makemigrations <nazwa app>
+
+14. Następnie wchodzimy do folderu aplikajci i wchodzimy w views.py i dodajemy:
+from django.http import HttpResponse, naszą funkcję, zmienną html z zakomentowanym kodem html,
+ która zwraca (return) właśnie:
+return HttpResponse(html)
+
+15. Jeżeli coś będzie pobierane z przeglądarki, 
+to funkcja musi mieć jeszcze argument request i zmienną którą pobieramy np. 
+def show_random(request, min_number, max_number):
+    rand_number = randint(int(min_number), int(max_number))
+    answer = """
+    <html>
+    <body>
+        <p>Użytkownik podał wartośći %s i %s. 
+        Wylosowano liczbę: %s</p>
+    </body>
+    </html>
+    """ % (min_number, max_number, rand_number)
+
+    return HttpResponse(answer)
+
+16. Wchodzimy do pliku urls.py w projekcie i dodajemy:
+- from rand.views import show_random (import funkcji z views) oraz
+- w urlpatterns: url pod jakim funkcja ma być wyświetlana i nazwa funkcji - używając wyrażeń regularnych np.
+url(r'^random/(?P<min_number>(\d)+)/(?P<max_number>(\d)+)$', show_random),
+
+UWAGA!! zmienne np. max_number i min_number muszą być tak samo nazwane zarówno w funkcji w pliku views.py 
+i w adresie url w sekcji urlpatterns w pliku urls.py!!
+
+TWORZENIE MODELI (mapowanie z bazą danych)
+
+17. Modele tworzymy w pliku models.py (w folderze każdej aplikacji).
+Każda klasa dziedziczy po models.Model, która się znajduje w bibliotece
+from django.db import models
+class Product(models.Model):
+    name = models.CharField(max_length=64)
+    description = models.TextField()
+    price = models.DecimalField(max_digits=6, decimal_places=2)
+    available = models.BooleanField(default=True)
+    available_from = models.DateField()
+
+UWAGA! Po utworzeniu modelu trzeba zrobić:
+--> python manage.py makemigrations <nazwa app>
+--> python manage.py migrate
+
+18. Praca w shellu:
+--> python manage.py shell
+
+19. Wczytywanie bazy danych z konsoli:
+--> psql -U [user_name] -f [file_name] -h [host] database_name -W
+np. --> psql -U postgres -f football.sql -h localhost football_db -W
+
+20. Kiedy mamy już utworzony model db w folderze aplikacji w pliku models.py
+to możemy na nim pracować np. dodawać dane, usuwać itp.
+--> Klasa.objects.[get/create/delete itp]()
+--> t = Product.objects.create(name="anchovies", price=3.50) - tworzy nowy wiersz
+--> p = Product.objects.get(pk=1) - pobiera wiersz o kluczu głównym 1
+--> Product.objects.all() - wyświetla wszystkie rekordy z tabeli
+--> Product.objects.filter(size=1)
+Modyfikowanie:
+--> t = Product.objects.get(name="onion")
+t.price = 3.0
+t.save()
+Usuwanie:
+t = Product.objects.get(name="anchovies")
+t.delete()
+
+21. Jeżeli mamy już skonfigurowane połączenie z bazą danych (pkt 11)
+to możemy wygenerować modele przy użyciu polecenia:
+--> python manage.py inspectdb > models.py
+
+
+
+
+
+
+
+
