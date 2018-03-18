@@ -1,0 +1,478 @@
+JavaScript
+
+1. W HTMLu możemy wrzucić link do JS w dwóch miejscach:
+<script src="app.js"></script>
+- albo w head
+- albo na samym końcu sekcji body
+
+w projekcie skrypt js zapisujemy do pliku z rozszerzeniem .js
+np app.js
+
+2. Komentarze:
+
+// Komentarz jednoliniowy
+
+/* Komentarz, który wykorzystuje
+więcej niżFunkcje czasu
+jedną linię */
+
+3. Wyświetlanie wyniku w konsoli: 
+console.log() --> działa jak printFunkcje czasu
+console.table() --> wyświetla w postaci tabeli
+
+4. Zmienne --> słowo kluczowe: var
+np. var numberOfUsers=4;
+--> var (spacja) nazwa_zmiennej->nie może zaczynać się od cyfry (=) wartość_zmiennej (;)
+
+5. Odpalanie konsoli JS w chromie i firefox: ctrl + shift + i
+
+6. i++ == i=i+1
+   i-- == i=i-1
+   a === b (zgadza się wartość i typ danych)
+
+7. Typy danych
+
+- Liczby (bez rozróżnienia czy całkowite, czy zmiennoprzecinkowe):
+var num = 1;
+var num2 = 2.2;
+
+- Stringi:
+var text = "Ala ma kota"
+var text2 = "2.2"
+(możemy używać "" lub ''
+
+- Booleany:
+var bool1 = true;
+var bool2 = false;
+
+- specjalne:
+var foo = null;
+var bar = undefined;
+
+- tablice:
+var tabl = [1, 2, 3, [4, 5, 6], "a", "b", "c", true, false, null, 2.2];
+
+- obiekty:
+var cat = {
+	color: "grey",
+	age: 18
+	name: Sefi
+	}
+8. Sprawdzenie typu danych:
+typeof 8; --> number
+typeof "ala"; --> string
+
+9. Zmiana typu pliku:
+ze stringa na inta:
+parseInt (string, system liczbowy)
+np. parseInt ("22.5", 10);
+
+10. Sprawdzenie warunkowe
+
+if (warunek){
+	// polecenie;
+} else if (warunek){
+	// inne polecenie;
+} else {
+	// jeszcze inne polecenie;
+};
+ 
+10. switch
+
+var check = 3;
+switch (check){
+
+case 1: return "Monday";
+
+case 2: console.log("Tuesday");
+break;	
+
+case 3: console.log("Wednesday");
+break;
+
+default: console.log("Nie ma takiego dnia tygodnia");
+};
+
+11. Pętla FOR
+
+var result = 0;
+
+for (var i = 0; i < 10; i++){
+	result += i;
+	console.log(result)
+	};
+	
+12. MATH
+
+Math.random() - losowa liczba z przedziału 0-1
+Math.floor() - zaokrąglanie w dół do liczy całkowitej
+Math.PI - liczna PI
+Math.abs() - wartość bezwględna
+
+13. WHILE
+
+while (var i != 5){
+	console.log("Pętle są fajne");
+	i = Math.floor(Math.random() * 10)
+	};
+	
+14. OPERATORY LOGICZNE:
+
+- && == AND
+- || == OR
+- ! == NOT
+- ^ == XOR
+
+15. FUNKCJE:false
+
+function nowaFunkcja(parametr){
+	var result = parametr * 10;
+	return result
+	};
+	
+console.log(nowaFunkcja(5));
+
+16. FUNKCJE BEZIMIENNE:
+
+var foo = function(){
+	console.log("Ala")
+};
+wywołanie --> foo();
+
+// do zmiennej można też przypisać nazwaną funkcję
+
+17. Do funkcji oczywiście możemy wprowadzić więcej niż jeden argument,
+jeżeli nie wiemy ile będzie argumentów, to możemy użyć: arguments
+
+function many(arguments){
+	// do something;
+	}
+	
+many([1, "a", true, null, [1, 2]]);
+
+18. TABLICE:
+
+tablice mogą przechowywać wszystkie typy danych i również typy mieszane
+
+var table = ["a", "b", 1, [1, 2, 3], {name:"Tobiasz", surname:"Kazanowski"}];
+
+table.length --> 5
+
+table[0]; --> "a"
+table[3]; --> [1, 2, 3]
+table[3][1]; --> 2
+table[4].name; --> "Tobiasz"
+
+19. TABLICE WIELOWYMIAROWE (tablica, która ma w sobie tablice - tablica tablic)
+żeby stworzyć taką tablicę musimy najpier stworzyć tablicę główną:
+
+var tabl2D = [];
+tabl2D[0] = [];
+tabl2D[1] = [];
+tabl2D[2] = [];
+
+20. OBIEKTY: (coś jak klasy w Pythonie)
+
+obiekty możemy tworzyć na 2 sposoby:
+
+a) poprzez utworzenie zmiennej i przypisanie do niej w nawiasach klamrowych
+pary klucz:wartość i funkcje (atrybuty i metody) np.
+ 
+var teacher = {
+	name: "Grzesiu",
+	surname:"Bronowicki",
+	subject:"Python",
+	age:31,
+	teach:function(){
+		return "uczę programowania';
+	},
+	aboutMe: function(){
+		console.log(this.name);
+		console.log(this.surname);
+		console.log(this.subject);
+	}
+};
+
+- do atrybutów możemy się dostać poprzez teacher.name
+lub do metody teacher.teach()
+
+- w metodzie obiektu, możemy się odnieść do tego obiektu poprzez specjalną
+zmienną this jak w metodzie aboutMe
+
+- możemy dodawać nowe atrybuty i metody poprzez przypisanie:
+teacher.students = ["Tobiasz", "Kuba", "Adi"]
+
+b) poprzez KONSTRUKTOR i słowo kluczowe new:
+false
+var Car = function(brand, color, age){
+	this.brand = brand;
+	this.color = color;
+	this.age = age
+	this.speed = 0
+	};
+
+w konstruktorze dodajemy atrybuty, natomiast metody dodajemy poprzez PROTOTYPY:
+
+Car.prototype.drive = function(km){
+	this.km += km;
+	console.log(this.color + ' ' + this.brand + ' is driven' + this.km + 'km/h')
+	};
+	
+var skoda = new Car("skoda", "silver", 12);
+skoda.drive(80);
+
+21. DODATKOWE METODY:
+a) dla STRINGów
+- str.split("") , str.split(" ") - dzielenie stringów (wg separatora)
+- str.toLowerCase() - zamiana na małe litery
+- str.toUpperCase() - zamiana na WIELKIE litery
+- str.trim() - usunięcie wszystkich białych znaków z początka i końca
+
+b) dla TABLIC:
+- arr.push(element) - dodaj element na koniec tablicy
+- arr.sort() - sortowanie tablicy
+- arr.forEach() - wywołaj funkcję dla każdego z elementów
+- arr.some() - sprawdź czy jakiś element spełnia warunek
+- arr.every() - sprawdź czy wszystkie elementy spełniają warunek
+- arr.filter() - sprawdź wszystkie elementy tablicy, zwróć w nowej 
+				tablicy tylko te, które go spełniły
+- arr.join(" ") - łączy elementy tablicy w jeden string używając (kleju)
+
+FOR EACH:
+
+var foo = [1, 2, 3];
+foo.forEach(function(element, index, array) {
+    console.log("Element" + element);
+});
+
+W kolejnych iteracjach w zmiennych:
+element - znajduje się aktualny element tablicy
+index - znajduje się aktualny index elementu tablicy
+array - znajduje się tablica po której iterujemy
+
+SOME i EVERY:
+
+var foo = [1, 2, 3];
+var anyOdd = foo.some(function(element, index, array) {
+    return element % 2 !== 0;
+});
+console.log(anyOdd);
+
+Sprawdź, czy jakikolwiek element jest nieparzysty, zwraca wartość boolean true lub false, która jest przypisana do zmiennej.
+
+var foo = [1, 2, 3];
+var allEven = foo.every(function(element, index, array) {
+    return element % 2 === 0;
+});
+console.log(allEven);
+
+FILTER:
+var foo = [1, 2, 3, 4];
+var bar = foo.filter(function(element, index, array) {
+    return element % 2 === 0;
+});
+console.log(bar);
+
+22. Sortowanie tablicy liczbowej:
+
+var array = [5,7,3,9,1,2];
+
+array.sort(function(a, b){
+	return a - b; (rosnąco) lub
+	return b - a; (malejąco)
+}
+
+23. MINUTNIK
+
+var timeout = setTimeout(function(){
+	console.log("już jestem");
+}, czasWmilisekundach)
+
+clearTimeout(timeout);
+
+var interval = setInterval(function(){
+	console.log("jestem co chwilę");
+}czasWmilisekundach);
+
+clearInterval(interval);
+
+np. 
+var boiling = setInterval(function(){
+	console.log("jajko się gotuje");
+}, 5000);
+
+var boiled = setTimeout(function(){
+	console.log("jajko ugotowane");
+	clearInterval(boiling);
+	clearTimeout(boiled);
+	}, 20000);
+	
+24. WYSZUKIWANIE ELEMENTÓW W DOM:
+
+var firstSelector = document.querySelector(selektorCSS);
+--> zwraca pojedynczy (pierwszy znaleziony) element lub null
+SELEKTORY:
+'.class'
+'#id'
+'a' lub 'p' lub 'div' lub 'h1' ...
+
+var allSelector = document.querySelectorAll(selektorCSS);
+--> zwraca tablicę ze wszystkimi znalezionymi elementami lub pustą tablicę
+
+możemy przeszukiwać też w taki sposób:
+
+firstSelector.querySelector(kolejnySelektorCSS); 
+// przeszukujemy względni pojedynczy element
+
+ale w taki już nie:
+
+allSelector.querySelector(kolejnySelektorCSS);
+// nie można względnie przeszukiwać tablicy elementów
+
+25. ATRYBUTY ELEMENTÓW:
+
+className - zwraca klasy elementu jako jeden string
+classList - zwraca klasy elementu w tablicy <-- WAŻNIEJSZY
+id - zwraca identyfikator elementu
+innerHTML - zwraca kod html między znacznikami wraz z tagami
+outerHTML - zwraca cały kod html elementu 
+innerText - zwraca kod html między znacznikami bez tagów
+dataset -   zwraca tablicę dataset w postaci klucz:wartość (pythonowy słownik)
+np.
+var link = <a href="http://www.google.pl class="foo bar" id="glink" data-foo="1">
+			<h1>Google</h1>
+			</a>
+link.className --> "foo bar"
+link.classList --> ['foo', 'bar']
+link.id --> 'glink'
+link.innerHTML --> '<h1>Google</h1>'
+link.outerHTML --> <a href="http://www.google.pl class="foo bar" 
+					id="glink" data-foo="1"><h1>Google</h1></a>
+link.innerText --> 'Google'
+link.dataset --> {foo:"1"}
+
+atrybuty można przypisać  np.
+
+link.id = 'link'
+// dla classList:
+link.classList.add('ciuf')
+link.classList.remove('ciuf')
+link.classList.toggle(className) - jeżeli nie ma klasy to dodaje, a jeżeli
+									klasa jest to ją usuwa
+
+26. STYLE:
+np. element.style.backgroundColor = "blue"
+
+27. ATRYBUTY ELEMENTÓW cd
+
+element.hasAttribute(atrName) - sprawdza czy element ma dany atrybut
+element.getAttribute(atrName) - zwraca wartość danego atrybutu
+element.removeAttribute(atrName) - usuwa dany atrybut
+np.
+link.hasAttribute("href") --> true
+link.getAttribute("href") --> 'www.google.pl'
+
+28. jeżeli umieszczamy link dojava script w sekcji head dokumentu html
+- to musimy zrobić DOMContentLoaded.
+Dla bezpieczeństwa warto go umieszczać zawsze.
+
+document.addEventListener("DOMContentLoaded", function() {
+	tutaj cały kod JavaScript
+});
+
+29. EVENTY - dodajemy poprzez: (event możemy ustawić tylko na pojedynczy
+element, jeśli chcemy ustawić ten sam event na więcej elementów np. 
+wszystkie buttony, to musimy zrobić to w pętli)
+
+element.addEventListener(eventName, callback)
+np.
+html: <button id="counter">Click me!</button>
+js:
+var button = document.querySelector('button');
+var clickCount = 0
+
+//funkcja nienazwana
+
+button.addEventListener('click', function(){
+	clickCount += 1;
+	console.log("Click number: ", clickCount);
+});
+
+// drugi sposób zapisu:
+
+html: <button id="counter">Click me!</button>
+js:
+var clickCount = 0;
+function clickCounter(event){
+	clickCount += 1;
+	console.log("Click number: ", clickCounter)
+};
+var button = document.querySelector('button');
+button.addEventListener('click', clickCounter);
+
+30. EVENTY to np.:
+- 'click', 'dbclick', 'mouseover', 'mousemove'
+
+31. zmienna THIS:
+jeżeli event mamy nastawiony na wiele elementów (np. kilka buttonów)
+to this wskazuje tylko ten, na którym został wykonany event np.
+
+var buttons = document.querySelectorAll(".btn");
+for(var i = 0; i < buttons.length; i++) {
+    buttons[i].addEventListener("click", function(event) {
+	this.style.backgroundColor = "red";
+    });
+}
+
+32. e.target - to element, który wywołał event (propagacja) 
+e.currentTarget - to element, do którego podpięty był event
+
+propogacja odbywa się od dziecka do rodzica tzn w górę DOM:
+--> jeżeli np. klikniemy na dziecko, to wywoła się też event z rodzica
+
+33. PORUSZANIE SIĘ PO DRZEWIE DOM:
+element.parentElement - rodzic
+el.nextElementSibling - kolejny element rodzeństwa
+el.previousElementSibling - poprzedni element rodzeństwa
+el.children - wszystkie dzieci elementu (tablica)
+el.firstElementChild - pierwsze dziecko
+el.lastElementChild - ostatnie dziecko
+
+34. TWORZENIE ELEMENTÓW i dodawanie do DOM:
+
+var newDiv = document.createElement("div")
+el.appendChild(newElement) - dodawanie ostatniego dziecka do elementu
+
+35. USUWANIE ELEMENTU - w celu usunięcia elementu musimy wywołać metodę
+removeChild na jego rodzicu np.
+var toDelete =document.querySelector('#bar');
+toDelete.parentElement.removeChild(toDelete);
+
+36. FORMULARZE
+ - jeżeli ustawiamy EVENT: element.addEventListener(eventName, callback)
+ na formularzu, to jako element musi być cały formularz <form>, a jako 
+ eventName - 'submit'
+żeby zatrzymać wysłanie formularza (np. błędnie wpisany email)
+używamy funkcji: event.preventDefault()
+
+żeby wyciągnąć wprowadzony w inpucie tekst używamy value np.
+html:
+<input id="name">
+js:
+var input = document.querySelector('#name');
+input.value;
+
+jeżeli input to checkbox to wartość (true / false) wyciągamy poprzez:
+input.checked
+
+
+
+
+
+
+
+
+
+
+
+	
