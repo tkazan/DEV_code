@@ -1,2 +1,2 @@
-# Useful_code
-Useful code fragments in several languages
+# DEV_code
+Basic code fragments in several languages
