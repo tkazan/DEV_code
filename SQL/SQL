@@ -1,0 +1,229 @@
+RELACYJNE BAZY DANYCH (PostgreSQL, MySQL, MongoDB, Oracle)
+- jeden do jednego np. wychowawca - klasa
+- jeden do wielu np. klasa - uczniowie
+- wiele do wielu np. nauczyciele - klasy
+
+1. Instalowani postgreSQL w konsoli:
+>> sudo apt-get install postgresql
+
+2. Instalowanie pgadmin3 (słonika):
+>> sudo apt-get install pgadmin3
+
+3. Sterownik pythona dla postgreSQL: (będąc w virtualenv)
+>> pip3 install psycopg2
+
+4. Tworzenie backupu bazy danych:
+>>  pg_dump -U user_name -h host_name db_name
+np. pg_dump -U postgres -h localhost tobiasz_db > tobiasz_db.sql 
+
+5. Wczytywanie backupu bazy danych: (baza danych musi być już stworzona)
+>>  psql -U user_name -f file_name -h host_name db_name
+np. psql -U postgres -f tobiasz_db.sql -h localhost tobiasz_db
+
+6. Praca w konsoli:
+>>  psql -h host_name -U user_name -W -d database_name
+np. psql -h localhost -U postgres -W -d tobiasz_db
+
+7. Tworząc zapytania SQL należy pamiętać o:
+- dawaniu średnika na końcu każdego zapytania (zwłaszcza podczas pracy w konsoli)
+- polecenia SQL piszemy wielkimi literami
+- stringi piszemy w pojedynczych apostrofach: 'string'
+- warto każde słowo kluczowe SQL zaczynać od nowego wiersza
+
+8. Komenarze w SQL
+-- single-line comment
+/* multi-line
+   comments */
+
+9. Tworzenie nowej bazy danych (np. tobiasz_db)
+
+CREATE DATABASE tobiasz_db;
+
+10. Tworzenie tabeli: (np. dane_użytkowników)
+
+CREATE TABLE dane_użytkowników(
+id SERIAL,
+name VARCHAR(255),
+surname VARCHAR(255),
+email VARCHAR(60) UNIQUE,
+born DATE,
+best_number INTEGER,
+comment TEXT NULL,
+logged BOOL DEFAULT TRUE,
+PRIMARY KEY(id)
+);
+
+(primary key możemy też zapisać tutaj: id SERIAL PRIMARY KEY)
+
+11. Wypełnianie tabeli danymi:
+
+INSERT INTO dane_użytkowników(name, surname, email, born, best_number)
+VALUES (
+'Tobiasz',
+'Kazanowski',
+'tobiaszkazanowski@gmail.com',
+'1988-06-06',
+6
+);
+
+-- wybierając taki sposób nie musimy uzupełniac wszystkich pól tabeli, tylko te wybrane
+-- tutaj (name, surname, email, born, best_number)
+-- jeżeli nie wybierzemy pól do uzupełnienia, tabela uzupełnia się zgodnie z kolejnością np.
+
+INSERT INTO dane_użytkowników
+VALUES (
+2,
+'Ewelina',
+'Kazanowska',
+'ewelina@gmail.com',
+'1990-02-20',
+13
+);
+
+12. Dane z tabeli wczytujemy za pomocą komendy: SELECT FROM np.
+
+SELECT * FROM dane_użytkowników;
+(* - oznacza wszystko)
+
+SELECT name, surname FROM dane_użytkowników;
+
+SELECT * FROM dane_użytkowników
+WHERE name = 'Ewelina';
+
+SELECT * FROM dane_użytkowników
+WHERE id < 2;
+
+SELECT * FROM dane_użytkowników
+WHERE surname LIKE 'K%';
+
+SELECT * FROM dane_użytkowników
+ORDER BY name;
+
+(można dodać: ORDER BY name ASC lub DESC - rosnąco lub malejąco)
+
+13. Zmienianie danych w tabeli:
+UPDATE dane_użytkowników
+SET born='1988-06-06', comment='ukochana Żona Tobiasza'
+WHERE name='Ewelina';
+
+(Uwaga! Update zawsze z klauzulą WHERE, bo inaczej zmieni wszystkie rekordy tabeli)
+
+14. Usuwanie wierszy z tabeli: (zawsze z klauzulą WHERE)
+
+DELETE FROM dane_użytkowników
+WHERE id=3;
+
+15. Modyfikacja tabeli:
+
+--dodawanie kolumny
+ALTER TABLE dane_użytkowników
+ADD inne VARCHAR(255) NULL;
+
+--usuwanie kolumny
+ALTER TABLE dane_użytkowników
+DROP COLUMN inne;
+
+16. Usuwanie tabeli i bazy danych
+
+DROP TABLE table_name;
+DROP DATABASE database_name;
+
+------------------------------------------------------------------------------------------------------------
+
+
+
+
+SELECT * FROM customers JOIN addresses ON
+customers.customer_id=addresses.customer_id WHERE customers.customer_id= 1;
+
+SELECT name, street FROM customers JOIN addresses ON
+customers.customer_id=addresses.customer_id WHERE customers.customer_id= 2;
+
+SELECT name, street FROM customers LEFT JOIN addresses ON
+customers.customer_id=addresses.customer_id
+
+SELECT name, street FROM customers RIGHT JOIN addresses ON
+customers.customer_id=addresses.customer_id
+
+SELECT name, street FROM customers FULL JOIN addresses ON
+customers.customer_id=addresses.customer_id
+
+ON DELETE CASCADE = powoduje ze dane z relacji 1-1 kasowane sa razem z obydwu tabel gdy kasowana jest tylko jedna
+
+1-1
+CREATE TABLE head_teacher(
+  head_teacher_id serial NOT NULL,
+  name varchar(255) NOT NULL,
+  PRIMARY KEY(head_teacher_id)
+);
+CREATE TABLE public.class(
+  head_teacher_id int NOT NULL,
+  class_name varchar(255),
+  PRIMARY KEY(head_teacher_id),
+  FOREIGN KEY(head_teacher_id)
+  REFERENCES head_teacher(head_teacher_id) ON DELETE CASCADE
+);
+
+z konsoli import - psql -f nazwa pliku -d baza danych -U uzytkownik -W
+
+1-wielu
+CREATE TABLE opinions
+(
+id SERIAL,
+product_id INT NOT NULL,
+description VARCHAR(255),
+PRIMARY KEY(id),
+FOREIGN KEY(product_id) REFERENCES product(id)
+);
+
+SELECT * FROM product
+JOIN oponions
+ON product.id = oponions.product_id
+WHERE product.id = 2;
+
+SELECT name, oponions.description FROM product
+JOIN oponions
+ON product.id = oponions.product_id
+WHERE product.id = 2;
+
+SELECT name, oponions.description FROM product
+JOIN oponions
+ON product.id = oponions.product_id
+WHERE product.id IN (2,5);
+
+SELECT name, oponions.description FROM product
+JOIN oponions
+ON product.id = oponions.product_id
+WHERE product.id BETWEEN 2 and 5;
+
+
+wielu - wielu
+
+CREATE TABLE orders_products
+( id SERIAL,
+order_id INT NOT NULL,
+product_id INT NOT NULL,
+PRIMARY KEY(id),
+FOREIGN KEY(order_id) REFERENCES public.order(id),
+FOREIGN KEY(product_id) REFERENCES product(id)
+);
+
+SELECT *
+FROM orders_products as op
+JOIN
+public.order
+ON public.order.id = op.order_id
+JOIN
+product
+ON product.id = op.product_id
+WHERE public.order.id = 3
+
+SELECT *
+FROM orders_products as op
+JOIN
+public.order
+ON public.order.id = op.order_id
+JOIN
+product
+ON product.id = op.product_id
+WHERE public.product.id = 4
