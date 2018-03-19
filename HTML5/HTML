@@ -1,0 +1,200 @@
+HTML - HyperText Markup Language (Hipertekstowy język znaczników)
+HTML - pisuje strukturę (nie wygląd) strony
+
+1. Komentarz <!-- Comment here -->
+2. Atrybuty są to pary nazwa = wartość 
+połączone znakiem "=", wartość zawsze jest w cudzysłowiu:
+<html lang="pl-PL">
+</html>
+
+3. Struktura dokumentu HTML:
+<!DOCTYPE html>
+<html lang="en-EN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="html basics" content="html5, basics">
+    <title>Title here</title>
+</head>
+<body>
+    <!-- page content here -->
+</body>
+</html>
+
+4. Nagłówki <h1></h1> - <h6></h6>, ale używa się h1, h2, h3 (header)
+<h1> To jest główny nagłówek </h1>
+<h2> To jest nagłówek drugorzędny </h2>
+<h3> A to są kolejne nagłówki </h3>
+
+5. Akapit <p></p> (paragraf)
+<p>
+    To jest nowy akapit i zaczyna się od nowej linii
+</p>
+
+6. ZNAKI SPECJALNE: (zaczynają się od ampresandu i kończą średnikiem)
+- niełamliwa spacja &npsp; (non-breaking space)
+- trade mark (TM) &trade;
+- mniejsze niż (<) &lt; (less-than)
+- większe niz (>) &gt; (greater-than)
+- copyright (c) &copy;
+- register sign (R) &reg;
+- mała grecka litera alpha (α) &alpha;
+- ampresand (&) &amp;
+
+7. Rozpoczęcie nowej linii <br> (break)
+<br> dajemy na końcu starej linii lub na początku nowej, nie ma znaczenia
+
+8. Lini horyzontalna <hr> (horizontal line)
+
+9. Znaczniki inline: 
+<b> pogrubienie fontu </b> (bold)
+<i> pochylenie fontu </i> (italic)
+<strong> pogrubienie i wzmocnienie </strong>
+<em> pochylenie i wzmocnienie </em>
+<mark> podświetlenie tła </mark>
+<sup> górny indeks </sup>
+<sub> dolny indeks </sub>
+<s> przekreślenie </s> (strikethrough)
+
+10. Większe bloki tekstu:
+<div>
+    <!-- Tutaj jakiś dłuższy tekst -->
+</div>
+
+11. LISTY
+<ol> ordered list - lista uporządkowana (cyfry)
+<ul> unordered list - lista nieuporządkowana (kropki)
+<dl> definition list
+np.
+<ol>
+    <li> Pierwszy </li>
+    <li> Drugi </li>
+    <li> Trzeci </li>
+</ol>
+
+lub z zagnieżdżaniem
+
+<ol>
+    <li> Pierwszy element
+        <ul>
+            <li>Podpunkt pierwszy</li>
+            <li>Podpunkt drugi</li>
+        </ul>
+    </li>
+    <li> Drugi element </li>
+    <li> Trzeci element</li>
+</ol>
+
+12. HIPERŁĄCZA <a> nazwa hiperłącza </a> (anchora)
+<a href="http://www.coderslab.pl" target="_blank" title="coderslab"> Szkoła programowania</a> 
+link do strony Coders Lab
+- href - hypertext reference adres odnośnika
+- target - domyślnie "_self", "_blank" - oznacza, że strona ma się otworzyć 
+w nowej karcie przeglądarki
+- title - podpowiedź jaka się wyświetli po najechaniu kursorem na link
+
+<a href="http://www.sport.pl"><button> SPORT </button></a> - przycisk
+
+<p id="section1"> Jakiś tekst oznaczony jako "section1"</p>
+link do section1: <a href="#section1"> Przejdź do sekcji 1 </a>
+
+<img src="images/coderslab_logo.png"> (image source) - link do obrazka
+atrybuty obrazka:
+- alt (alternative text) - pojawi się jeżeli nie będzie możliwości 
+wyświetlić obrazek np. alt="Logo CL"
+- width - szerokość obrazka np. width="150px"
+- height - wysokość obrazka np. height="100px"
+
+13. TABELE (tables)
+
+<table> Znacznik tabeli </table>
+<tr> Znacznik wiersza </tr> (table row)
+<td> Znacznik pola/komórki tabeli </td> (table data)
+<th> Znacznik nagłówka tabeli </th> (table header) stosuje się jak <td>
+
+Struktura:
+<table>
+    <tr>
+        <th> Kolumna 1 </th>
+        <th> Kolumna 2 </th>
+        <th> Kolumna 3 </th>
+    </tr>
+    <tr>
+        <td> Wartość jeden </td>
+        <td> Wartość dwa </td>
+        <td> Wartośc trzy </td>
+    </tr>
+    <tr>
+        <td> Drugi wiersz komórka 1 </td>
+        <td> Drugi wiersz komórka 2 </td>
+        <td> Drugi wiersz komórka 3 </td>
+    </tr>
+</table> 
+
+atrybuty: 
+<td colspan="2" rowspan="3"></td> (ile kolumn i wierszy ma zajmować komórka tabeli)
+<table border="1"></table> (obramowanie tabeli)
+
+14. FORMULARZE
+<form method="POST">
+    <fieldset>
+    <legend> Ta grupa (fieldset) formularza dotyczy: </legend>
+    <label> Wpisz swoje dane osobowe: <br>
+        <input type="text" name="firstname" placeholder="imię"><br>
+        <input type="text" name="lastname" placeholder="nazwisko"><br>
+        <input type="password" name="password" value="imię@nazwisko.pl"><br>
+        <textarea placeholder="Uwagi" cols="50" rows="10">
+        Tutaj możesz wpisać gotowy tekst</textarea><br>  
+        <input type="submit" value="wyślij">
+    </label>
+    </fieldset>
+</form>
+
+<fieldset> - pozwala na grupowanie części formularza, dodaje dookoła ramkę
+<legend> - opis fieldseta
+
+type - określa typ wprowadzanych danych
+name - unikalna nazwa, na jej podstawie można pobrać dane z formularza
+        NAJWAŻNIEJSZY ATRYBUT W FORMULARZU
+placeholder - podpowiedź
+value - gotowe wypałnione pole (oprócz "submit", gdzie value to nazwa guzika)
+
+INPUT TYPES:
+- text
+- email
+- password
+- number
+- date
+- url
+- submit
+
+
+15. FORMULARZ ZAAWANSOWANY - radio, checkbox
+Checkbox:
+<label>
+    <input type="checkbox" name="extras" value="extra sauce" checked>Dodatkowy sos
+</label>
+
+Radio:
+<label>
+    <input typ="radio" name="seat" value="window" checked>miejsce przy oknie 
+</label><br>
+<label>
+    <input typ="radio" name="seat" value="middle">miejsce w środku 
+</label><br>
+<label>
+    <input typ="radio" name="seat" value="corridor">miejsce od korytarza 
+</label>
+
+16. IDENTYFIKATORY i KLASY
+
+- identyfikator jest unikatowym atrybutem jaki może mieć element HTML.
+Konkretny identyfikator może mieć tylko jeden element.
+Każdy element może mieć co najwyżej jeden identyfikator.
+np. <p id="mainLink"><a href="http://www.deon.pl" target="_blank">DEON.PL</a></p>
+
+- klasa jest atrybutem, który można przypisać wielu elementom HTML.
+Każdy element html może mieć wiele klas, są one wtedy od siebie oddzielone spacją.
+np. <p class="redBoldedParagraph">Czerwony, pogrubiony paragraf </p>
+
+17. Stronę główną nazywa się najczęściej index.html
+
