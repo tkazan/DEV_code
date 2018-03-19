@@ -1,0 +1,52 @@
+OBSŁUGIWANIE BAZ DANYCH (POSTGRES) W PYTHONIE:
+
+1. potrzebny jest sterownik pythona do obsługi bazy danych postgresa:
+(instaluje się go będąc już w środowisku wirtualnym - virtualenv)
+>> pip3 install psycopg2
+
+2. import bibliotek i nawiązanie połącznia:
+
+from psycopg2 import connect
+from psycopg2.extensions import ISOLATION_LEVEL_AUTOCOMMIT
+from psycopg2.extras import RealDictCursor 
+
+# ^ ostatni import nie jest konieczny, używamy jeśli chcemy mieć kursor jako słownik
+
+try:
+    cnx = connect(user="postgres", password="coderslab", dbname="tobiasz_db", host="localhost")
+                # użytk_postgresa, hasło_użytkownika,    nazwa_DB,            nazwa_hosta
+    print("nawiązano połączenie z bazą danych")
+    
+    cnx.set_isolation_level(ISOLATION_LEVEL_AUTOCOMMIT)
+    print("isolation_level ustawiony na isolation level autocommit")
+    
+    cursor = cnx.cursor()
+    
+    sql = "tutaj jakieś zapytanie SQL RETURNING id"
+    
+    # jeżeli użyjemy na końcu zapytanie SQL - RETURNING nazwa_kolumny np. id
+    # to dostajemy otrzymujemy wybraną wartość elementu, na którym pracowaliśmy (w tym wypadku id)
+        
+    cursor.execute(sql)
+    
+    last_id = cursor.fetchone()[0]
+    for row in cursor:
+        print(last_id)
+        print(row)
+    
+    # druga metoda:
+    dict_cursor = cnx.cursor(cursor_factory=RealDictCursor)
+    dict_cursor.exequte(sql)
+    for row in dict_cursor:
+        print(row)
+    #dostajemy słownik
+   
+except Exception as e:
+    print("Nieudane połączenie z bazą danych z powodu: {}".format(e))
+
+finally:
+    cursor.close()
+    cnx.close()
+    
+
+    

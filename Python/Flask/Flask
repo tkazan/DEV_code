@@ -1,0 +1,64 @@
+1. Serwer we Flasku:
+
+from flask import Flask
+
+app = Flask(__name__)
+
+@app.route("/")
+def hello():
+    return "Hello World"
+    
+@app.route("/<name>")
+def witaj(name):
+    return "Witaj {}!".format(name)
+
+
+if __name__ == "__main":
+    app.run(debug=True)
+    
+2. Metody GET i POST:
+
+from flask import Flask
+from flask import request, render_template, redirect
+
+app = Flask(__name__)
+
+@app.route("/form", methods=['GET','POST'])
+def dane_osobowe():
+
+    if request.method == 'GET':
+        return render_template("form.html")
+    else:
+        name = request.form["name"]
+        surname = request.form["surname"]
+        return redirect("/")
+
+@app.route("/")
+def hello():
+    return "Hello World"
+
+if __name__ == "__main__":
+    app.run(debug=True)
+
+[templates] --> [form.html]:
+<!DOCTYPE html>
+<head>
+    <meta charset="utf-8">
+    <title>Formularz danych osobowych</title>
+</head>
+<body>
+    <label> <h3>Dane osobowe:</h3>
+    <form method="POST">
+        <label> IMIĘ
+        <input type="text" name="name" placeholder="imię">
+        </label><br>
+        <label> NAZWISKO
+        <input type="text" name="surname" placeholder="nazwisko">
+        </label><br>
+        <label> EMAIL
+        <input type="email" name="email" placeholder="email">
+        </label><br>
+        <input type="submit" value="wyślij">
+    </form>
+    </label>
+</body>

@@ -187,5 +187,13 @@ list2.remove('c')       --> list2 == ['a', 'b', 'c'] # removes first 'c' from th
 from datetime import datetime
 now = datetime.now()
 print(now.year) --> 2018
+
+#Lista składana - comprehension list
+28. 
+my_list = [2 * i for i in range(0, 10)]
+print(my_list) --> [0, 2, 4, 6, 8, 10, 12, 14, 16, 19]
+
+my_list2 = [i for i in range(0, 18) if i % 3 == 0]
+print(my_list2) --> [0, 3, 6, 9, 12, 15]
  
 

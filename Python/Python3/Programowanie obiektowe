@@ -1,0 +1,135 @@
+PROGRAMOWANIE OBIEKTOWE - OOP (Object Oriented Programming) wzorzec projektowy oparty na klasach i obiektach
+
+1. KLASA (class) - jest to schemat opisujący atrybuty (zmienne) i metody (funkcje), które można wykonać na obiekcie.
+Klasę można przyrównać do projektu wykonawczego, na podstawie którego budowany jest obiekt (instancja klasy).
+
+Tworzenie klasy: klasę tworzymy przy użyciu słowa kluczowego class, a następnie piszemy nazwę klasy PascalCasem i dajemy dwukropek np.
+(Python 3, w Pythonie 2 trzeba by jeszcze dodać class NewClass(object): - object to wbudowana klasa, po której dziedziczą wszystkie klasy)
+
+class NewClass:
+    def hello_world(self):
+        print("Hello World!")
+
+Każda podstawowa metoda klasy przyjmuje pierwszy parametr: self
+
+2. OBIEKT (instancja klasy) - jest połączeniem zmiennych (atrybutów) i funkcji (metod) w jedną strukturalną całość na podstawie klasy.
+W Pythonie wszystko jest obiektem :-)
+
+Tworzenie obiektu (instancji klasy), to po prostu wywołanie klasy i zapisanie tego do zmiennej:
+new_object = NewClass()
+
+A metody i atrybuty możemy wywoływać na obiekcie, poprzez wywołanie obiektu i po kropce atrybut lub metoda np.
+new_object.hello_world()
+
+Do obiektu klasy łatwo możemy dodać nowe atrybuty poprzez:
+new_object.name = "Nowy obiekt klasy NewClass"
+
+3. Cztery założenia programowania obiektowego:
+ABSTRAKCJA, DZIEDZICZENIE, HERMETYZACJA, POLIMORFIZM
+
+- ABSTRAKCJA - klasa ma chować logikę dzięki, której otrzymujemy funkcjonalność. Obiekty (instancje klasy) wykorzystują tą funkcjonalność.
+- HERMETYZACJA - klasa powinna chować kod przed niezaplanowanym użyciem i kontrolować swój stan.
+- POLIMORFIZM - podszywanie się pod inne klasy, tzn obiekt nie przejmuje się dokładnym typem klasy, tylko wykorzystuje jej funkcjonalności
+- DZIEDZICZENIE - obiekty mogą po sobie dziedziczyć właściwości i funkcjonalności
+
+4. Dodatkowe 2 założenia OOP:
+- GENERALIZACJA 
+- SPECJALIZACJA - każda klasa powinna się w czymś specjalizować, jeśli tak nie jest to powinna zostać wciągnięta przez klasę nadrzędną
+
+5. Magiczne metody klas:
+np. __init__    __str__     __repr__
+
+- __init__ (konstruktor) możemy tutaj przekazać zmienne potrzebne do tworzenia obiektu:
+
+def __init__(self, name, surname):
+    self.name = name
+    self.surname = surname
+    
+- __str__ magiczna funkcja, która rzutuje nam obiekt do stringa, który możemy wykorzystać w funkcji print
+
+def __str__(self):
+    return self.name + self.surname
+
+n = NewClass(Tobiasz, Kazanowski)
+print(n)
+--> Tobiasz Kazanowski
+
+- __repr__ to reprezentacja obiektu, jeśli wywołamy go z terminala
+
+def __repr__(self):
+    return self.name
+
+n
+--> Tobiasz    
+
+6. Dziedziczenie, przy dziedziczeniu dziecko przejmuje wszystkie pola i metody z klasy rodzica.
+Dziedziczenie odbywa się poprzez zdefiniowanie nowek klasy, która jako parametr przyjmuje klasę rodzica:
+np.
+class Dziecko(Rodzic):
+    pass
+
+class Book:
+    def __init(self, n, p, a):
+        self.name = n
+        self.price = p
+        self.author = a
+    def __str__(self):
+        return "{} by {} for {}".format(self.name, self.author, self price)
+
+book1 = Book("Hobbit", 35.99, "J.R.R. Tolkien")
+
+class EBook(Book):
+    def __init__(self, n, p, a, s)
+        super(Ebook, self).__init__(n, p, a)
+        self.size = s
+    def __str__(self):
+        return "{} by {} for {} size: {} MB".format(self.name, self.author, self price, self.size)
+        
+ebook1 = Ebook("Hobbit", 35.99, "J.R.R. Tolkien", 20)
+
+przy dziedziczeniu jeżeli klasa dziecka ma metodę lub pole (atrybut) o nazwie identycznej jak u rodzica, 
+to ta metoda, pole zostają nadpisane (zmienione).
+Jeżeli chcemy zachować funkcję rodzica i tylko coś do niej dopisać, to musimy użyć funkcji super(Dziecko, self)
+
+7. Metoda statyczna @staticmethod
+To tak na prawdę zwykła funkcja tylko podczepiona pod klasę (np. ponieważ ma jakieś powiązania logiczne z daną klasą).
+Metoda statyczna jest lokalna dla klasy. Nie używamy parametru self, a wywołujemy ją poprzez podanie nazwy klasy, 
+a następnie po kropce nazwy metody statycznej. Metodę statyczną tworzymy poprzez udekorowanie metody dekoratorem:
+@staticmethod np.
+
+class Book:
+    @staticmethod
+    def get_silmarillion():
+        b = Book()
+        b.name = "Silmarillion"
+        b.author = "J.R.R. Tolkien"
+        b.price = 42.50
+        return b
+
+book = Book.get_silmarillion()
+
+8. Metoda klasowa @classmethod
+Podobnie jak metodę statyczną wywołuje się ją na samej klasie, a nie na obiekcie (instancji) klasy.
+Różni się ona od metody statycznej tym, że wykorzystuje ona lokalne (klasowe) zmienne.
+
+class Book:
+    author = "Tobiasz"
+
+    @classmethod
+    def cm(cls):
+        print("Pozdrowienia z klasy " + cls.__name__ + " autor " + cls.author)
+
+Book.cm()
+--> Pozdrowienia z klasy Book autor Tobiasz
+
+9. Metody dynamiczne @property ???
+
+10. Warunek inline: np. 
+self.x = x if type(x) == int or type(x) == float else 0
+
+11. Prywatne atrybuty klas z podwójnym podkreśleniem __atribute nie dziedziczą się
+        
+ 
+
+     
+        
