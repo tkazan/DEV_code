@@ -1,0 +1,172 @@
+CSS (Cascading Style Sheet) - Kaskadowy arkusz styli
+
+1. /*
+Struktura CSS, reguły:
+- na zewnątrz jest selektor, a wewnątrz w nawiasach klamrowych
+- własność, dwukropek, wartość własności, średnik
+- nazwy własności, jeśli są wieloczłonowe, łączy się myślnikiem
+np. */ 
+
+p {
+color: red;
+font-size: 12px;
+border: 1px solid black;
+}
+
+/* W taki sposób dodaje sie komentarze w CSS */
+
+2. /* 
+w CSS możemy wyróżnić następujące selektory:
+- element html np. <p> <div> <h1> <table> itd.
+- atrybut id (identyfikator)
+- atrybut class (klasę)
+*/
+
+3. /*
+ELEMENT HTML: 
+jeżeli chcemy wybierać wg elementów html, to jako selektor
+wybieramy po prostu znacznik html, tak jak w przykładzie powyżej.
+Wtedy styl będzie przypisany dla wszystkich takich elementów.
+
+IDENTYFIKATOR:
+jeżeli chcemy nadać styl dla konkretnego elementu, który ma swój identyfikator
+np. <p id="intro" to selektor CSS tworzy się poprzez hash i nazwę id - #intro
+np.*/
+
+#intro {
+color: blue;
+font-size: 20px;
+}
+
+/* selektor klasy tworzymy poprzez .nazwaKlasy
+np. atrybut class="content" przypisano w html, kilku elementom:
+<p class="content">
+<h2 class="content">
+<div class="content">
+To selektor CSS tworzy się w następujący sposób:
+*/
+
+.content {
+font-weight: bold;
+font-style: italic;
+color: green;
+}
+
+4. /*
+STYLE CSS w arkuszu HTML:
+- atrybut style elementu HTML (style liniowe) 
+- element style
+- zewnętrzny arkusz
+
+ATRYBUT STYLE np. */
+<p style="letter-spacing:2px; word-spacing:5px;">
+    Paragraf z określonym stylem
+</p>
+
+/*
+ELEMENT STYLE:
+można go umieścić w dowolnym miejscu arkusza HTML, ale żeby 
+uniknąć mieszania się kodu, zwykło się umieścić style CSS 
+w sekcji <head> arkusza HTML: */
+
+<!DOCTYPE html>
+<html lang ="en-EN"
+<head>
+    <meta charset="utf-8"
+    <title>Tytuł strony</title> 
+    
+    <style>
+        <!-- Tutaj zdefiniowane style CSS -->
+        np.
+        
+        p {
+        color: red;
+        }
+        
+        #intro {
+        font-size: 20px;
+        letter-spacing: 2px;
+        }
+        
+        .blue {
+        color: blue;
+        }
+    </style>
+    
+</head>
+
+/*
+ZEWNĘTRZNY ARKUSZ CSS:
+(najlepsza i najbardziej polecana metoda).
+Cały kod CSS trzymany jest w osobnym pliku, a implementacja do arkusza HTML
+odbywa się poprzez element: <link> dodawany w sekcji <head> arkusza HTML: */
+
+<!DOCTYPE html>
+<html lang="pl-PL">
+<head>
+    <meta charset="utf-8">
+    <title> Tytuł stront </title>
+    
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+/*
+gdzie:
+- element <link> importuje zewnętrzne pliki na stronę 
+- atrybut rel="" (relation) określa jakiego typu jest importowany plik
+- atrybut href="" określa ścieżkę dostępu do pliku zewnętrznego
+*/
+
+5. /*
+WŁAŚCIWOŚCI w CSS:
+
+color: marron;                          - ustala kolor czcionki
+background-color: yellow;               - ustala kolor tła 
+background-image: url("....");          - ustala obrazek tła
+font-size: 15px;                        - ustala rozmiar czcionki
+font-family: "Arial light", Arial;      - ustala rodzaj czcionki
+font-style: italic;                     - ustala styl czcionki
+font-weight: bold;                      - ustala grubość czcionki
+text-align: center/left/right/justify;  - ustala położenie teksty wewnątrz boxu
+text-decoration: underline;             - ustala ozdobnik tekstu
+text-indent: 20px;                      - ustala wcięcie pierwszego wyrazu
+text-shadow: ....;                      - ustala cień czcionki
+text-transform: uppercase;              - pozwala na modyfikację wielkości liter
+(capitalize/lowercase/uppercase)
+*/
+
+6. Oczywiście możemy stylować LISTY i TABELE
+
+TABELE:
+/*
+border: 1px;                    - tworzy ramkę
+border-collapse: separate;      - ramki są oddzielone
+border-spacing: 10px;           - odsunięcie ramki
+padding: 3px;                   - określa przestrzeń wokół elementów
+*/    
+7. ZNACZNIKI CSS:
+/*
+
+A - wybór przez element HTML
+#A - wybór przez identyfikator
+.A - wybór przez klasę
+A.B - wybór poprzez element HTML i klasę
+A, B - wybór elementów A i B
+* - wybór wszystkiego
+A * - wybór wszystkiego w A
+A+B - wybór wszystkich B, które występują po A
+A>B - wybór wszystkich B, które są bezpośrednimi dziećmi A
+*/
+
+8. OPŁYWANIE (strukturę strony warto budować na divach!)
+
+float: left;
+clear: both;
+
+
+
+
+
+
+
+
