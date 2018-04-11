@@ -8,23 +8,31 @@ Multiline
 comment
 """
 
-3. " " == ' '
+3. " " is equal to ' '
 
-4. # print command:
+4. PRINT
 print("Hello World") 
 
-5. # string index:
-print("Hello World"[0]) --> H
-print("Hello World"[2]) --> l
-print("Hello World"[0:3]) --> Hel
+# by default each print in a new line
+
+5. DIR and HELP
+dir(random)             # show available functions in module random
+help(random.randint)    # show a basic description of function randint
+
+6. STRING INDEX
+print("Hello World"[0]) --> H               # index
+print("Hello World"[2]) --> l           
+print("Hello World"[0:3]) --> Hel           # range
+print("Hello World"[::-1] --> dlroW olleH   # step
+print("Hello World"[::2] --> HloWrd
 [0:3] == [:3]
 [3:-1] == [3:]
 
-6. print(1, 2, 3, 'Hello') --> 1 2 3 Hello
-7. print('line1\nline2\nline3') --> line1
+7. print(1, 2, 3, 'Hello') --> 1 2 3 Hello
+8. print('line1\nline2\nline3') --> line1
                                     line2
                                     line3
-8. # variables classes:
+9. TYPES OF VARIABLES
 my_str = 'Hello'
 print(type(my_str), my_str) --> <class 'str'> Hello (string)
 
@@ -34,27 +42,57 @@ print(type(my_int), my_int) --> <class 'int'> 25 (integer)
 my_float = 1.3
 print(type(my_float), my_float) --> <class 'float'> 1.3
 
+round(20.87654, 2) --> 20.88
+
 my_list = [1, 2, 3, 'Hello'] --> list
 my_dict = {'a': 1, 'b': 2, 'c':3} --> dict (dictionary)
 
-9. # list index:
+10. LIST INDEX
 my_list = [1, 2, 3, 'Hello']
 print(my_list[3]) = print(my_list[-1]) --> Hello
 # index always starts from zero: [0] - first element, [1] - second element
 # index with minus value means index from behind --> [-1] - last element, [-2] - one before last
 
-10. # dictionaries:
+11. DICTIONARIES
 my_dict = {'a': 1, 'b': 2, 'c': 3}
 print(my_dict['a']) --> 1
 
-11. 
+del my_dict["b"] # delete a key with its value
+
+my_dict.get('b', None)
+my_dict.setdefault('d', 888)
+
+#
+colors = ['red', 'blue', 'red', 'yellow', 'blue', 'red']
+d = {}
+for color in colors:
+    if color in d:
+        d[color] += 1
+    else: 
+        d[color] = 1
+print(d)
+
+## Unpacking a dict:
+def message(d):
+    validation = {"name", "role", "movie"}
+    if not validation.difference(d):
+        return "In {movie}, {name} is a {role}.".format(**input_dict) # <--here
+    else:
+        return None
+
+input_dict = {
+    "name": "Han Solo",
+    "role": "smuggler",
+    "movie": "Star Wars"
+
+12. STRINGS
 my_str = 'Hello'
 print(my_str, "World!") --> Hello World!
 greeting = my_str + "World!"
 print(greeting) --> Hello World!
 
-# IF (conditionals)
-12. 
+13. IF (conditionals)
+#
 x = 6
 color = 'red'
 
@@ -65,22 +103,22 @@ elif color == 'blue':
 else:
     print('Color is not red or blue')
 
-13. # IF inside IF (nesting functions)
+## IF inside IF (nesting functions)
 if color =='red':
     if x < 10:
         print('Color is red and x is less than 10')
-# shorter and better solution for that is:
-if color == 'red' and x <10:
+### shorter and better solution for that is:
+if color == 'red' and x < 10:
     print('Color is red and x is less than 10')
 
-# LOOPS: FOR
-14. 
+14.LOOPS: FOR
+#
 people = ['Tobi', 'Ewe', 'Zosia']
 for person in people:
     print(person) --> Tobi
                       Ewe
                       Zosia
-15. 
+## 
 people = ['Tobi', 'Ewe', 'Zosia']
 for i in range(len(people)):
     print(people[i]) --> Tobi
@@ -89,15 +127,27 @@ for i in range(len(people)):
     print(i) --> 0
                  1
                  2
-16. 
+### 
 for i in range(0, 5):
     print i --> 0
                 1
                 2
                 3
                 4
-# LOOPS: WHILE
-17.
+                
+#### FIZZ BUZZ
+for i in range(100):
+    if i % 3 == 0 and i % 5 == 0:
+        print("FizzBuzz")
+    elif i % 3 == 0:
+        print("Fizz")
+    elif i % 5 == 0:
+        print("Buzz")
+    else:
+        print(i) 
+        
+15. LOOPS: WHILE
+#
 count = 0
 while count <= 5:
     print('Count: ', count)
@@ -109,7 +159,7 @@ while count <= 5:
     4
     5
 
-18. 
+##
 count = 1
 while count <= 5:
     if count == 3:
@@ -119,25 +169,50 @@ while count <= 5:
     2
     3
 
-# FUNCTIONS
-19.
+16. FUNCTIONS
+#
 def say_hello():
     print('Hello')
 say_hello() --> Hello
 
-20. 
+# even if function has no arguments we need to use "()" to call the function: say_hello()
+
+## 
 def say_hello(name):
     print ('Hello', name)
 say_hello('John') --> Hello John
 
-21.
+###
 def get_sum(num1, num2):
     total = num1 + num2
     return total
 num_sum = get_sum(1, 2)
 print(num_sum) --> 3
 
-22.
+# RETURN in functions return the value and exit the function
+
+## Functions can have default parameters (always on the end of arguments):
+def sum(a, b, c = 2): 
+# if no c, it will be 2 by default
+   return a + b + c
+sum(1, 10) --> 13
+
+### We can call function in 2 ways: by order or by name:
+a = 10
+b = 5
+def sub(a, b):
+    return b - a
+sub(a, b) --> -5
+sub(b, a) --> 5
+sub(a=a, b=b) --> -5
+sub(b=b, a=a) --> -5
+
+#### Magic function parameters 
+*args       - add any amount of parameters by order (tuple)
+**kwargs    - add any amount of parameters by names (dict)
+
+
+17. VALUES INSIDE FUNCTIONS
 def add_one_to_num(num):
     num = num + 1
     print("Value inside function: ", num)
@@ -148,7 +223,6 @@ print('Value outside function: ', num) --> Value outside function: 5
 
 # but it's different with the list
 
-23.
 def add_one_to_list(my_list):
     my_list.append(4)
     print('Value inside: ', my_list)
@@ -157,8 +231,8 @@ my_list = [1, 2, 3]
 add_one_to_list                   --> [1, 2, 3, 4]
 print('Value outside: ', my_list) --> [1, 2, 3, 4]
 
-# string functions
-24. my_str = 'Hello World'
+18. STRING FUNCTIONS
+my_str = 'Hello World'
 print(my_str.capitalize())                --> Hello world
 print(my_str.swapcase())                  --> hELLO wORLD
 print(len(my_str))                        --> 11 (number of signs including spaces)
@@ -167,33 +241,142 @@ sub = 'l'
 print(my_str.count(sub))                  --> 3 # 3 'l' in 'Hello World'
 print(my_str.split())                     --> ['Hello', 'World'] # splits to the list
 
-# IMPORTING
-25. # import entire module
+my_list = ['have', 'a', 'nice', 'day']
+my_str = ' '.join(my_list)
+print(my_str)                             --> have a nice day
+
+"-".join('a', 'b', 'c') --> a-b-c
+
+19. IMPORTING
+# import entire module
 import math
 math.exp(x)
 
-26. # import a specific element
+## import a specific element
 from math import exp(x)
 exp(2)
 
-27. # adding elements to the list
+### 
+import random
+random.randint(0, 10)
+
+#### When we import something from other module to avoid auto calling functions from file we import from,
+we can add at the end of basic module:
+if __name__ == "__main__":
+    main()
+
+20. ADDING ELEMENTS TO THE LIST
 list = ['a', 'b', 'c']
-list.extend(['d', 'e']) --> list == ['a', 'b', 'c', 'd', 'e'] # adds elements to the list
+list.extend(['d', 'e']) --> list == ['a', 'b', 'c', 'd', 'e']   # adds elements to the list
 list.append(['d', 'e']) --> list == ['a', 'b', 'c', ['d', 'e']] # adds ONE element to the end of list
 list2 = ['a', 'c', 'b', 'c'] 
-list2.remove('c')       --> list2 == ['a', 'b', 'c'] # removes first 'c' from the list
+list2.remove('c')       --> list2 == ['a', 'b', 'c']            # removes first 'c' from the list (removes value)
+list2.insert(1, 'abc')  --> list2 == ['a', 'abc', 'b', 'c']     # insert on (index, value)
+list.pop(0)             --> list2 == ['abc', 'b', 'c']          # removes index
 
-# DATETIME
+21. DATETIME
 from datetime import datetime
 now = datetime.now()
 print(now.year) --> 2018
 
-#Lista składana - comprehension list
-28. 
-my_list = [2 * i for i in range(0, 10)]
-print(my_list) --> [0, 2, 4, 6, 8, 10, 12, 14, 16, 19]
+22. COMPREHENSIONS
+# Comprehension list
+my_list = [i for i in range(0, 18) if i % 3 == 0]
+print(my_list) --> [0, 3, 6, 9, 12, 15]
 
-my_list2 = [i for i in range(0, 18) if i % 3 == 0]
-print(my_list2) --> [0, 3, 6, 9, 12, 15]
- 
+## Comprehension generator
+my_gen = (2*i + 1 for i in range(5))
+
+### Dict comprehension
+my_dict = {key: value for (key, value) in zip(list1, list2)}
+
+23. ITERATION THROUGH LIST and DICTIONARY
+# List iteration:
+my_list = [i*i for i in range(10)]
+for index, value in enumerate(my_list):
+    print('{}:{}'.format(index, value)
+
+## Dict iteration:
+for key, value in my_dict.items():
+    print('{}:{}'.format(key, value))
+
+# OR
+
+for key in star_wars:
+    print(key, star_wars[key], sep=": ")
+
+24. INPUT
+Input() function generate a string. When we need to make a nums from input() values we need to transform them to int or floar using:
+age = input("Enter your age: ")
+age = int(age) or float(age)
+
+25. DIFF BETWEEN "==" AND "is"
+"==" compares values
+"is" compares if it's the same object: a is b <==> id(a) == id(b)
+
+26. FIBO 
+#
+a, b = 0, 1
+for i in range(10):
+    print(a)
+    a, b = b, a+b
+##
+def fibo(x):
+    if x < 2:
+        return x
+    else:
+        return fibo(x-2) + fibo(x-1)
+###
+def gen_fibo(x)
+    a, b = 0, 1
+    for i in range(x):
+        yield a
+        a, b = b, a+b
+              
+27. PASS KEYWORD
+The body of the class or function can't be empty. To make base of program,
+we can use a "pass" keyword to leave the function empty and avoid error.
+
+def do_nothing():
+    pass
+print(do_nothing())
+
+28. TUPLE
+my_tuple = 1, 2 --> (1, 2)
+my_tuple = ("abc") --> ('a', 'b', 'c')
+
+Tuple is unmutable type of object. We can't add or subtract elements from tuple.
+Other unmutable types are: str, int, float.
+Mutable types are: list, dict
+
+Conversion list to tuple and vice versa:
+my_list = [1, 2, 3, 4]
+my_tuple = tuple(my_list) --> (1, 2, 3, 4)
+my_list2 = list(my_tuple) --> [1, 2, 3, 4]
+
+29. BOOLEANS
+In Python everything is an object. Each object has value True or False.
+We can check it by calling a function bool() on object.
+Every empty object is a False i.e.: {}, "", (), []
+
+30. LAMBDA - ANONYMOUS FUNCTIONS
+my_list = [1, 2, 3, 4, 5, 6, 7]
+
+filtered_list = filter(lambda x: x % 2 == 0, my_list)
+filtered_list --> (2, 4, 6) # generator
+
+mapped_list - map(lambda x: x * x, my_list)
+mapped_list --> (1, 4, 9, 16, 25, 36, 49) # generator
+
+31. SET
+Set is a list of unique elements. It's a dict without values, only keys.
+We can use set on a dict to get the keys. Or on a list to get unique values from it.
+
+my_set = {'a', 'b', 'c', 'd'}
+my_list = [1, 2, 3, 2, 3, 1, 1, 4, 2, 1, 4]
+my_set2 = set(my_list)
+my_set2 --> {4, 2, 1, 3}    # only unique values with no order
+
+
+
 
