@@ -1,0 +1,35 @@
+
+MOST USEFUL PEP DOCS: 			https://www.python.org/dev/peps/
+
+- PEP 8 --> formating a Python code 	https://www.python.org/dev/peps/pep-0008/
+- PEP 20 --> ZEN of Python		https://www.python.org/dev/peps/pep-0020/
+- PEP 257 --> formating a docstrings	https://www.python.org/dev/peps/pep-0257/
+
+-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+
+PEP 8
+
+1. indentation - 4 spaces
+2. characters limit per line - 79 char in comments max 72 char
+3. in multilines math operators go at the beginning of new line
+4. new class and new function with 2 blank lines around
+5. methods inside class with 1 blank line around
+
+6. each import in new line:
+import math
+import random
+import os
+NOT: import math, random, os
+BUT: from datetime import datetime, timestamp
+
+at first: import standard Python library
+second: related third party library imports
+at last: local imports
+
+if there are many of them each group separated with single blank line
+
+7. Names convention:
+- files names --> small_letters_with_underlines
+- class names --> PascalCase
+- variables and functions --> same_as_files
+
