@@ -1,0 +1,32 @@
+
+1. CONTEXT MANAGER - KEYWORD "with":
+
+with open('text.txt', 'r') as f:
+    f.read()    # OR
+    f.write()   # OR
+    for line in f:
+        print(line)
+
+'r' - read mode
+'w' - write mode
+'a' - append mode
+'r+' - read and write mode
+'a+' - append and read mode
+
+2. GENERATORS
+#
+def gen_fibo(x):
+    a, b = 0, 1
+    for i in range(x):
+        yield a
+        a, b = b, a+b
+##
+my_gen = (i*i for i in range(5))
+
+3. NAMED TUPLE
+
+from collections import namedtuple
+
+Color = namedtuple('Color', ['red', 'green', 'blue'])
+color = Color(55, 155, 255)
+color.red == color[0] == color['red']
