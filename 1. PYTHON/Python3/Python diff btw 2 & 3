@@ -1,0 +1,28 @@
+
+Main differences between Python 2 and Python 3:
+
+1. PRINT
+- Python 2 --> print 'Hello World' 	# print as a keyword
+- Python 3 --> print('Hello World')	# print as a function
+
+2. CHARACTER ENCODING
+- Python 2 --> ASCII as default
+- Python 3 --> unicode as default	(UTF-8)
+
+3. DIVISION
+- Python 2 --> 5/2 = 2 			# float(5)/2 = 2.5
+- Python 3 --> 5/2 = 2.5
+
+4. CLASSES
+- Python 2 --> class Car(object):
+- Python 3 --> class Car:		# no need to write inherit from object
+
+5. RANGE
+- Python 2 --> range(10) 		# makes a list [0 - 9]
+	       xrange(10) 		# makes a generator (0 - 9)
+- Python 3 --> range(10)		# makes a generator (0 - 9)
+
+6. INPUT
+- Python 2 --> input("Do something: ")	# ask user for the Python code
+	       raw_input("Do sth: ")	# ask user for the string
+- Python 3 --> input("Do sth: ")	# ask user for the string
