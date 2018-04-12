@@ -6,38 +6,51 @@ PRACA Z DJANGO
 i przypisujemy nazwę folderu dla tego środowiska: tutaj virtenvdjango:  
 --> virtualenv -p python3 virtenvdjango
 
-3. Aktywujemy wirtualne środowisko, będąc w folderze głównym dla naszego nowego projektu:
+3. Aktywujemy wirtualne środowisko, będąc w folderze głównym 
+dla naszego nowego projektu:
 --> source virtenvdjango/bin/activate
 (w konsoli wirtualne środowisko deaktywujemy poprzez: --> deactivate)
 
 4. Mając już aktywne wirtualne środowisko, instalujemy django 
-(tutaj w wersji 1.11.6, domyślnie, bez numeru na końcu 2.0):
+(tutaj w wersji 1.11.6, domyślnie, bez numeru na końcu instaluje wersję 2.0):
 --> pip3 install django==1.11.6
 
 5. Po instalacji, możemy podejrzeć, czy zainstalowała się odpowiednia wersja:
 --> django-admin version
+# lub
+--> python -m django --version
 
 6. Będąc w folderze głównym inicjujemy nowy projekt tutaj o nazwie coderslab 
-(kropka oznacza "w tym folderze"):
+(kropka oznacza "w tym folderze"): 
 --> django-admin startproject coderslab .
+
+# Bez kropki zostałby jeszcze utworzony folder główny o nazwie jak projekt
 
 7. Tworzymy nową aplikację (będąc w folderze głównym projektu)
 tutaj o nazwie edu: 
 --> python manage.py startapp rand
 UWAGA! Aplikacja nie może mieć nazwy takiej samej jak projekt!
 
-8. Uruchamiany serwer (domyślnie na porcie 8000):
+8. Uruchamiany serwer deweloperski (domyślnie na porcie 8000):
 --> python manage.py runserver 
-(można też otworzyć na innym porcie i go sobie wybrać: python manage.py runserver 8888)
+(można też otworzyć na innym porcie i go sobie wybrać: 
+python manage.py runserver 8888)
 
-9. Dodajemy naszą aplikację w pliku settings.py (w folderze projektu) w sekcji INSTALLED_APPS
+# serwer zamykamy z konsoli poprzez CTRL + C
 
-10. W konsoli, będąc w aktywnym wirtualnym środowisku instalujemy bibliotekę do łączenia się
-z bazami danych postgres psycopg2:
+9. Dodajemy naszą aplikację w pliku settings.py 
+(w folderze projektu) w sekcji INSTALLED_APPS
+
+10. W konsoli, będąc w aktywnym wirtualnym środowisku instalujemy bibliotekę 
+do łączenia się z bazami danych postgres psycopg2:
 --> pip3 install psycopg2
 
-11. W folderze projektu w pliku settings.py w sekcji DATABASES konfigurujemy bazę danych, z którą będziemy pracować,
-tutaj baza danych postgres projekt_1_db:
+11. W folderze projektu w pliku settings.py w sekcji DATABASES konfigurujemy 
+bazę danych, z którą będziemy pracować, tutaj baza danych postgres projekt_1_db:
+
+# UWAGA! Aby pracować na konkretnej bazie danych (tutaj projekt_1_db) 
+to musi ona zostać wcześniej stworzona.
+
 DATABASES = {
     'default': {
         'NAME': 'projekt_1_db',
@@ -48,19 +61,30 @@ DATABASES = {
     }
 }
 
+# Będąc już w pliku settings.py możemy od razu ustawić odpowiedni TIME ZONE
+(domyślnie ustawiony jest UTC)
+
 12. Migracja do bazy danych (serwer musi być wyłączony CTRL+C w konsoli)
 --> python manage.py migrate
 
-13. Jeśli pracujemy z bazą danych w konkretnej aplikacji, to wcześniej trzeba zrobić:
+13. Jeśli pracujemy z bazą danych w aplikacji, to wcześniej trzeba zrobić:
 --> python manage.py makemigrations <nazwa app>
 
 14. Następnie wchodzimy do folderu aplikajci i wchodzimy w views.py i dodajemy:
-from django.http import HttpResponse, naszą funkcję, zmienną html z zakomentowanym kodem html,
- która zwraca (return) właśnie:
-return HttpResponse(html)
+from django.http import HttpResponse, naszą funkcję, zmienną html 
+z zakomentowanym kodem html, która zwraca właśnie ten html: 
+return HttpResponse(html) lub krótki kod html wpisujemy jako string bezpośrednio
+do HttpResponse('kod html') 
+np.
 
-15. Jeżeli coś będzie pobierane z przeglądarki, 
-to funkcja musi mieć jeszcze argument request i zmienną którą pobieramy np. 
+from django.http import HttpResponse
+
+def index(request):
+    return HttpResponse("Hello, world. You're at the polls index.")
+
+15. Jeżeli coś będzie pobierane z przeglądarki, to funkcja 
+musi mieć jeszcze zmienną którą pobieramy np. 
+
 def show_random(request, min_number, max_number):
     rand_number = randint(int(min_number), int(max_number))
     answer = """
@@ -75,18 +99,53 @@ def show_random(request, min_number, max_number):
     return HttpResponse(answer)
 
 16. Wchodzimy do pliku urls.py w projekcie i dodajemy:
-- from rand.views import show_random (import funkcji z views) oraz
-- w urlpatterns: url pod jakim funkcja ma być wyświetlana i nazwa funkcji - używając wyrażeń regularnych np.
+- from rand.views import show_random (import funkcji z views) 
+lub po prostu 
+from rand.views import * (import wszystkich funckji i klas)
+oraz
+- w urlpatterns: url pod jakim funkcja ma być wyświetlana 
+i nazwa funkcji - używając wyrażeń regularnych np.
 url(r'^random/(?P<min_number>(\d)+)/(?P<max_number>(\d)+)$', show_random),
 
-UWAGA!! zmienne np. max_number i min_number muszą być tak samo nazwane zarówno w funkcji w pliku views.py 
-i w adresie url w sekcji urlpatterns w pliku urls.py!!
+UWAGA!! zmienne np. max_number i min_number muszą być tak samo nazwane zarówno 
+w funkcji w pliku views.py i w adresie url w sekcji urlpatterns w pliku urls.py!
+
+UWAGA2!! Jeżeli w projekcie mamy więcej niż jedną aplikację i każda w adresie
+url ma inny początek ścieżki. To możemy stworzyć osobny plik urls.py wewnątrz
+każdej aplikacji. Wygląda to wtedy następująco:
+
+rand/urls.py        # folder aplikacji
+
+from django.conf.urls import url
+from views import *
+
+urlpatterns = [ 
+    url(r'^$', index, name='index'),
+]
+
+coderslab/urls.py   # folder projektu
+
+from django.conf.urls import include, url
+from django.contrib import admin
+
+urlpatterns = [
+    url(r'^admin/', admin.site.urls),
+    url(r'^polls/', include('polls.urls')),
+]
+
+## w folderze projektu zostaje tylko url do panelu administratora.
+Funkcja include() pozwala na odniesienia do innych URLconfów.
+Kiedykolwiek Django napotyka include(), odcina tę część URL-a, 
+która została dopasowana do tego punktu i wysyła pozostłą część ciągu znaków 
+do zaincludowanego URLconfa, do dalszego przetworzenia.
 
 TWORZENIE MODELI (mapowanie z bazą danych)
 
 17. Modele tworzymy w pliku models.py (w folderze każdej aplikacji).
 Każda klasa dziedziczy po models.Model, która się znajduje w bibliotece
+
 from django.db import models
+
 class Product(models.Model):
     name = models.CharField(max_length=64)
     description = models.TextField()
