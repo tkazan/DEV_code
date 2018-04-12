@@ -33,7 +33,47 @@ Color = namedtuple('Color', ['red', 'green', 'blue'])
 color = Color(55, 155, 255)
 color.red == color[0] == color['red']
 
+
 4. TRY/EXCEPT
 
+try:
+    pass
+except:
+    pass
+else:
+    pass
+finally:
+    pass
+
+# try - try do do sth that can cause exception
+## except - program is executing except if part of code in try casued exception i.e.: 
+except Exception as e:
+    print(e, "Process in try has failed")
+### else - this part of code is executed if there is no except
+#### finally - this part of code is always realized at the end
+
+
 5. DECORATORS
+Decorator is a function which takes as an argument another function, 
+add some functionality and return that function.
+
+def decorator_func(original_func):
+    def wrapper_func(*args, **kwargs):
+        print('wrapped')
+        return original_func(*args, **kwargs)
+    return wrapper_func
+    
+@decorator_func
+def display():
+    print('display func')
+display()
+
+    ==
+
+def display():
+    print('display func')
+decorated_display = decorator_func(display)
+decorated_display()
+
+
 
