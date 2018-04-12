@@ -122,12 +122,48 @@ class Book:
 Book.cm()
 --> Pozdrowienia z klasy Book autor Tobiasz
 
-9. Metody dynamiczne @property ???
-
 10. Warunek inline: np. 
 self.x = x if type(x) == int or type(x) == float else 0
 
 11. Prywatne atrybuty klas z podwójnym podkreśleniem __atribute nie dziedziczą się
+
+PRZYKŁAD:
+
+class Employee:
+    raise_amt = 1.05
+    
+    def __init__(self, name, surname):
+        self.name = name
+        self.surname = surname
+    
+    def __str__(self):
+        return self.name, self.surname
+    
+    @classmethod
+    def change_raise_amt(cls, value):
+        cls.raise_amt = value
+    
+    @staticmethod
+    def is_workday(day):
+        if day.weekday() == 5 or day.weekday == 6:
+            return False
+        return True
+    
+    @property
+    def email(self):
+        self.email = "{}.{}@company.com".format(self.name, self.surname)
+    
+    @email.setter
+    def email(self, name, surname):
+        self.name = name
+        self.surname = surname
+
+
+class Developer(Employee):
+    
+    def __init__(self, name, surname, language):
+        super(Developer, self).__init__(name, surname)
+        self.language = language
         
  
 
