@@ -1,1 +1,86 @@
-UNIT TEST
+
+UNITTEST
+
+1. UNITTEST FOR FUNCTIONS
+
+FILE: calc.py
+
+def add(a, b):
+    retur a + b
+
+def divide(a, b):
+    if b == 0:
+        raise ValueError('Can not divide by 0')
+    return a / b
+    
+    
+FILE: test_calc.py
+
+import unittest
+import calc
+
+class TestCalc(unittest.TestCase):
+    
+    def test_add(self):
+        self.assertEqual(calc.add(5, 10), 15)
+        self.assertEqual(calc.add(-1, 1), 0)
+        self.assertEqual(calc.add(0, 0), 0)
+        
+    def test_divide(self):
+        self.assertEqual(calc.divide(4, 2), 2)
+        self.assertEqual(calc.divide(5, 2), 2.5)
+        
+        self.assertRaises(ValueError, calc.divide, 5, 0) 
+        # OR
+        with self.assertRaise(ValueError):
+            calc.divide(5, 0)
+
+if __name__ == '__main__':
+    unittest.main()
+    
+    
+2. UNITTEST FOR CLASSES
+
+FILE: employee.py
+
+class Employee:
+    raise_amt = 1.05
+    
+    def __init_(self, first, last, pay):
+        self.first = first
+        self.last = last
+        self.pay = pay
+    
+    @property
+    def email(self):
+        return "{}.{}@email.com".format(self.first, self.last)
+    
+    @property
+    def fullname(self):
+        return "{} [}".format(self.first, self.last)
+    
+    def apply_raise(self):
+        self.pay = int(self.pay * self.raise_amt)
+
+FILE: test_employee.py
+
+import unittest
+import employee
+
+class TestEmployee(unittest.TestCase):
+    
+    def test_employee(self):
+        emp1 = Employee('Tobiasz', 'Kazanowski', 6000)                  # can make an instance of class for each method or use setUp, tearDown
+        self.assertEqual(emp1.email, 'Tobiasz.Kazanowski@email.com')
+        
+    # to avoid creating instances for each method test, we can use setUp and tearDown methods 
+      which are executed at the begining and at the end of test.
+    
+    def setUp(self):
+        self.emp1 = Employee('Tobiasz', 'Kazanowski', 6000)
+    
+    def tearDown(self):
+        pass
+    
+if __name__ == "__main__":
+    unittest.main()
