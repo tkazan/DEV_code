@@ -152,6 +152,13 @@ class Product(models.Model):
     price = models.DecimalField(max_digits=6, decimal_places=2)
     available = models.BooleanField(default=True)
     available_from = models.DateField()
+    
+    def __str__(self):
+        return self.name
+
+# Dodanie metod __str__() do modeli jest ważne, nie tylko dla wygody, 
+ale także dlatego, że reprezentacje obiektów są używane 
+w automatycznie generowanym panelu administracyjnym Django.
 
 UWAGA! Po utworzeniu modelu trzeba zrobić:
 --> python manage.py makemigrations <nazwa app>
@@ -166,6 +173,11 @@ np. --> psql -U postgres -f football.sql -h localhost football_db -W
 
 20. Kiedy mamy już utworzony model db w folderze aplikacji w pliku models.py
 to możemy na nim pracować np. dodawać dane, usuwać itp.
+
+from rand.models import *
+lub
+from rand.models import Product
+
 --> Klasa.objects.[get/create/delete itp]()
 --> t = Product.objects.create(name="anchovies", price=3.50) - tworzy nowy wiersz
 --> p = Product.objects.get(pk=1) - pobiera wiersz o kluczu głównym 1
@@ -180,8 +192,34 @@ t = Product.objects.get(name="anchovies")
 t.delete()
 
 21. Jeżeli mamy już skonfigurowane połączenie z bazą danych (pkt 11)
-to możemy wygenerować modele przy użyciu polecenia:
+to możemy wygenerować modele z istniejących w bazie danych tabel,
+przy użyciu polecenia:
 --> python manage.py inspectdb > models.py
+
+22. Django admin - panel administratora
+
+Konto administratora tworzymy w shellu django:
+--> python manage.py createsuperuser
+--> Username: admin
+--> Email address: admin@example.com
+--> Password: **********
+--> Password (again): *********
+
+Dostęp do panelu administratora znajduje się pod adresem url:
+http://127.0.0.1:8000/admin/
+lub
+http://localhost:8000/admin/
+
+Trzeba jeszcze zarejestrować konkretny model w djangoAdmin:
+
+w folderze aplikacji, w pliku admin.py:
+
+from django.contrib import admin
+from .models import ModelName       # lub from .models import *
+
+admin.site.register(ModelName)
+
+
 
 
 
