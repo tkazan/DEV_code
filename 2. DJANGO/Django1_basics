@@ -107,6 +107,11 @@ oraz
 i nazwa funkcji - używając wyrażeń regularnych np.
 url(r'^random/(?P<min_number>(\d)+)/(?P<max_number>(\d)+)$', show_random),
 
+Użycie nawiasów dookoła wzorca „wyłapuje” tekst dopasowany do tego wzorca 
+i wysyła go jako arguement do funkcji widoku; ?P<min_number> definiuje nazwę, 
+która zostanie użyta, aby zidentyfikować dopasowany wzorzec; a (\d)+ 
+jest wyrażeniem regularnym do dopasowania do sekwencji cyfr.
+
 UWAGA!! zmienne np. max_number i min_number muszą być tak samo nazwane zarówno 
 w funkcji w pliku views.py i w adresie url w sekcji urlpatterns w pliku urls.py!
 

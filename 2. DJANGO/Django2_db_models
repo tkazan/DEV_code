@@ -1,3 +1,6 @@
+
+DJANGO MODELE DO MAPOWANIA Z BAZAMI DANYCH
+
 1. WZORZEC PROJEKTOWY 
 MVC - Model - View - Controler (Model - Widok - Kontroler)
 MTV - Model - Template - View (Model - Szablon - Widok) --> Django
@@ -28,12 +31,15 @@ NullBooleanField() --> True / False / Null
 DateField() --> mapuje do Date
 DateTimeField() --> mapuje datę i godzinę
 
-UWAGA! Klucz główny (id SERIAL) dodawany jest automatycznie, chyba, że go specjanie dodamy do innego pola
+UWAGA! Klucz główny (id SERIAL) dodawany jest automatycznie, 
+chyba że go specjanie dodamy do innego pola
 - wtedy w dodatkowych atrybutach piszemy (primary_key = True)
 
 5. dodatkowe atrybuty:
-nazwa_pola = models.typ_pola(default = 1, NULL = True, max_lenght = 64, choices = KROTKA)
---> domyślna wartość = 1, pole może być puste, dopuszczalna ilość znaków = 64, mamy wybór z krotki zapisanej do zmiennej)
+nazwa_pola = models.typ_pola(default = 1, NULL = True, 
+                             max_lenght = 64, choices = KROTKA)
+--> domyślna wartość = 1, pole może być puste, dopuszczalna ilość znaków = 64, 
+    mamy wybór z krotki zapisanej do zmiennej)
 
 PRACA W SHELLU:
 
@@ -59,7 +65,8 @@ t = Toppings.objects.all()
 9. Jeżeli chcemy wybrać więcej rekordów możemy do tego wykorzystać: filter()
 t = Toppings.objects.filter(name="ham")
 
-jeżeli chcemy filtrować po więcej niż jednym kluczu, to możemy to zrobić na 2 sposoby:
+jeżeli chcemy filtrować po więcej niż jednym kluczu, 
+to możemy to zrobić na 2 sposoby:
 t = Toppings.objects.filter(name="ham", amount="normal") lub
 t = Toppings.objects.filter(name="ham").filter(amount="normal")
 
@@ -88,7 +95,7 @@ RELACJE
 
 13. w relacji WIELE DO JEDNEGO ForeignKey dajemy tam, gdzie wiele.
 Przy tworzeniu related_field = models.ForeignKey("RelatedModel")
-to klasę nadrzędną warto dać w cudzysłowiu, wtedy nie ma znaczenia kolejność w models.
+klasę nadrzędną warto dać w cudzysłowiu, wtedy bez znaczenia kolejność w models.
 
 np. relacja jeden adres wielu mieszkańców:
 # każda klasa w models.py dziedziczy po: models.Model
@@ -167,6 +174,7 @@ pt = PizzaTopps.objects.create(pizza=p, topping=t1, amount='n')
 UWAGA! do pola relacji dodajemy cały model, a nie tylko id !
 
 17. Zapytanie w metodzie GET:
-/?variable1=1&variable2=2 (zaczynamy od "?" i później pary klucz=wartość rozdzielone ampresandem "&")
+/?variable1=1&variable2=2 (zaczynamy od "?" i później 
+pary klucz=wartość rozdzielone ampresandem "&")
 
 
