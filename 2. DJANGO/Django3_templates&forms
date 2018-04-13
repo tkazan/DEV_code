@@ -6,7 +6,7 @@ a) PROJEKT
 - settings.py --> lista aplikacji, połączenie z bazą danych, ustawienie static
 - urls.py --> import klas z widoków (views) i url-e pod jakimi mają być 
 
-#UWAGA! Jeżeli jest więcej niż jedna aplikacja w projekcie, 
+# UWAGA! Jeżeli jest więcej niż jedna aplikacja w projekcie, 
 to warto stworzyć plik urls.py w folderze aplikacji, a tutaj zrobić tylko
 powiązanie za pomocą include()
 
@@ -16,6 +16,11 @@ b) APLIKACJE
 - views.py --> klasy widoków, logika aplikacji
 - templates/*.html --> szablony hmtl (w tym base.html / index.html)
 - forms.py --> formularze
+
+# UWAGA! Znów jeżeli mamy więcej niż 1 aplikację w projekcie, to aby wskazać 
+django właściwy plik (templatki mogą mieć te same nazwy w kilku aplikacjach), 
+dodajemy do ścieżki dodatkowo folder z nazwą aplikacji:
+--> templates/app_name/*.html 
 
 - static/js/*.js --> pliki javascript
 - static/css/*.css --> pliki css
@@ -75,7 +80,8 @@ base.html:
 <html>
   <head>
     {% block head %}
-      <link rel="stylesheet" href="style.css" />
+      {% load static %}
+      <link rel="stylesheet" href="{% static 'css/style.css' %}">
       <title>{% block title %}{% endblock %} | My Webpage</title>
     {% endblock %}
   </head>
@@ -150,7 +156,8 @@ form.as_ul – w postaci listy
 
 W Django, widget będzie sposobem w jaki Django renderuje pola formularzy. 
 Wszystkie widgety znajdują się w pakiecie django.forms.
-Klasę zawierającą widget dodaje się do pola formularza jako parametr opcjonalny np:
+Klasę zawierającą widget dodaje się do pola formularza jako parametr opcjonalny 
+np:
 
 message = forms.CharField(widget=forms.Textarea)
 
@@ -164,7 +171,8 @@ Widgety:
 
 6. WŁAŚCIWOŚCI PÓL FORMULARZA:
 a) required
-Jeśli użyjemy tej właściwości (tj. ustawimy wartość na True), pole będzie wymagane. Przesłanie niewypełnionego pola zwróci błąd ValidationError. 
+Jeśli użyjemy tej właściwości (ustawimy wartość na True), pole będzie wymagane. 
+Przesłanie niewypełnionego pola zwróci błąd ValidationError. 
 
 login = forms.CharField(required=False)
 
@@ -202,7 +210,8 @@ fields – czyli które pola będą wyświetlone w formularzu.
         Jeżeli wszystkie to zamiast listy podajemy string: '__all__'.
         Jeżeli wszystkie z wykluczeniem jakiegoś: exclude = ['available_from'] 
 
-ModelForm ma metodę save(), która pozwala zapisać model przypięty do formularza. Ta metoda tworzy lub modyfikuje obiekt modelu i zapisuje go do bazy danych. 
+ModelForm ma metodę save(), która pozwala zapisać model przypięty do formularza. 
+Ta metoda tworzy lub modyfikuje obiekt modelu i zapisuje go do bazy danych. 
 
 w widoku:
 
@@ -218,11 +227,12 @@ class MyProduct(View):
 
 8. PROCESORY KONTEKSTU:
 
-jeżeli chcemy używać jakiś zmiennych globalnych np. bierzącą datę i nr wersji w stopce strony 
-możemy w tym celu wykorzystać procesorów kontekstu.
+jeżeli chcemy używać jakiś zmiennych globalnych np. bierzącą datę 
+i nr wersji w stopce strony możemy w tym celu wykorzystać procesorów kontekstu.
 
 tworzymy plik pythona np. my_context_procesor.py
-i w tym pliku tworzymy funkcję, która zwraca słownik ze zmiennymi, które chcemy wykorzystać globalnie np.
+i w tym pliku tworzymy funkcję, która zwraca słownik ze zmiennymi, 
+które chcemy wykorzystać globalnie np.
 
 from datetime import datetime
 def my_cp(request):
@@ -232,10 +242,11 @@ def my_cp(request):
     }
     return ctx
 
-Aby procesor kontekstu był widoczny w aplikacji, musimy zarejestrować go w pliku settings.py.
-W tym celu musimy odnaleźć wpis TEMPLATES, w którym definiujemy dane szablonów. 
-Odnajdujemy klucz OPTIONS, po czym do listy o kluczu context_processors dopisujemy ścieżkę dostępu do funkcji:
-'edu.my_context_processor.my_cp'
+Aby procesor kontekstu był widoczny w aplikacji, musimy zarejestrować go 
+w pliku settings.py. W tym celu musimy odnaleźć wpis TEMPLATES, 
+w którym definiujemy dane szablonów. Odnajdujemy klucz OPTIONS, 
+po czym do listy o kluczu context_processors dopisujemy ścieżkę 
+dostępu do funkcji: 'edu.my_context_processor.my_cp'
 
 i później w szablonie:
 
