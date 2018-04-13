@@ -4,7 +4,11 @@ ZAAWANSOWANE DJANGO
 
 a) PROJEKT
 - settings.py --> lista aplikacji, połączenie z bazą danych, ustawienie static
-- urls.py --> import klas z widoków (views) i url-e pod jakimi mają być wyświetlane
+- urls.py --> import klas z widoków (views) i url-e pod jakimi mają być 
+
+#UWAGA! Jeżeli jest więcej niż jedna aplikacja w projekcie, 
+to warto stworzyć plik urls.py w folderze aplikacji, a tutaj zrobić tylko
+powiązanie za pomocą include()
 
 b) APLIKACJE
 
@@ -13,12 +17,12 @@ b) APLIKACJE
 - templates/*.html --> szablony hmtl (w tym base.html / index.html)
 - forms.py --> formularze
 
-static/js/*.js --> pliki javascript
-static/css/*.css --> pliki css
+- static/js/*.js --> pliki javascript
+- static/css/*.css --> pliki css
 
 2. VIEWS
 
-aby, wyświetlić szablon w widokach musimy użyć TemplateResponse lub funkcji render
+aby, wyświetlić szablon w widokach musimy użyć TemplateResponse lub funk. render
 
 from django.template.response import TemplateResponse
 from django.shortcuts import render
