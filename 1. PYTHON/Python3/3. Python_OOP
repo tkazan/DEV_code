@@ -7,7 +7,7 @@ Tworzenie klasy: klasę tworzymy przy użyciu słowa kluczowego class, a następ
 (Python 3, w Pythonie 2 trzeba by jeszcze dodać class NewClass(object): - object to wbudowana klasa, po której dziedziczą wszystkie klasy)
 
 class NewClass:
-    def hello_world(self):
+       def hello_world(self):
         print("Hello World!")
 
 Każda podstawowa metoda klasy przyjmuje pierwszy parametr: self
@@ -148,13 +148,13 @@ class Employee:
         if day.weekday() == 5 or day.weekday == 6:
             return False
         return True
-    
+    print(lukas.email)
     @property
     def email(self):
-        self.email = "{}.{}@company.com".format(self.name, self.surname)
+        return "{}.{}@company.com".format(self.name, self.surname)
     
     @email.setter
-    def email(self, name, surname):
+       def email(self, name, surname):
         self.name = name
         self.surname = surname
 

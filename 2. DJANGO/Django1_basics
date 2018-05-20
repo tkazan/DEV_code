@@ -72,7 +72,7 @@ DATABASES = {
 
 14. Następnie wchodzimy do folderu aplikajci i wchodzimy w views.py i dodajemy:
 from django.http import HttpResponse, naszą funkcję, zmienną html 
-z zakomentowanym kodem html, która zwraca właśnie ten html: 
+z kodem html, która zwraca właśnie ten html: 
 return HttpResponse(html) lub krótki kod html wpisujemy jako string bezpośrednio
 do HttpResponse('kod html') 
 np.
